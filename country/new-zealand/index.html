@@ -203,11 +203,12 @@ nav a {
             <th>Availability</th>
             <th>Last checked</th>
             <th>Source</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody id="providersTable">
           <tr>
-            <td colspan="5">Loading country data...</td>
+            <td colspan="6">Loading country data...</td>
           </tr>
         </tbody>
       </table>
@@ -242,7 +243,7 @@ nav a {
         console.error(error);
         table.innerHTML = `
           <tr>
-            <td colspan="5">Unable to load country data.</td>
+            <td colspan="6">Unable to load country data.</td>
           </tr>
         `;
         return;
@@ -251,7 +252,7 @@ nav a {
       if (!data || data.length === 0) {
         table.innerHTML = `
           <tr>
-            <td colspan="5">No provider data found for this country.</td>
+            <td colspan="6">No provider data found for this country.</td>
           </tr>
         `;
         providerCount.textContent = "0";
@@ -283,16 +284,21 @@ nav a {
 
         return `
           <tr>
-            <td>
-              <a href="/provider/${row.provider_slug}/">
-                ${row.provider}
-              </a>
-            </td>
-            <td>${row.casino}</td>
-            <td><span class="status-badge">${availability}</span></td>
-            <td>${row.last_checked}</td>
-            <td>${row.source || "Manual"}</td>
-          </tr>
+  <td>
+    <a href="/provider/${row.provider_slug}/">
+      ${row.provider}
+    </a>
+  </td>
+  <td>${row.casino}</td>
+  <td><span class="status-badge">${availability}</span></td>
+  <td>${row.last_checked}</td>
+  <td>${row.source || "Manual"}</td>
+  <td>
+    <a href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
+      View details
+    </a>
+  </td>
+</tr>
         `;
       }).join("");
     }
