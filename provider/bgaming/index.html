@@ -16,9 +16,12 @@
     }
 
     header {
-      padding: 24px 8%;
-      border-bottom: 1px solid #2a2f36;
-      background: #15181c;
+    padding: 24px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a2f36;
+    background: #15181c;
     }
 
     a {
@@ -32,6 +35,20 @@
       margin: 0 auto;
     }
 
+    .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #4fd1a5;
+    text-decoration: none;
+    }
+
+    nav a {
+    color: #b8c0cc;
+    margin-left: 24px;
+    text-decoration: none;
+    font-size: 14px;
+    }
+    
     .badge {
       display: inline-block;
       padding: 8px 14px;
@@ -124,6 +141,9 @@
     }
 
     @media (max-width: 800px) {
+      nav {
+        display: none;
+      }
       h1 {
         font-size: 34px;
       }
@@ -137,8 +157,15 @@
 
 <body>
   <header>
-    <a href="/">← Back to SlotAvailability</a>
-  </header>
+  <a class="logo" href="/">SlotAvailability</a>
+  <nav>
+    <a href="/providers/">Providers</a>
+    <a href="/countries/">Countries</a>
+    <a href="/casino/stake/">Casino</a>
+    <a href="/map/">World Map</a>
+    <a href="/help-us/">Help Us</a>
+  </nav>
+</header>
 
   <main>
     <span class="badge">Provider Availability</span>
