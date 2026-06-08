@@ -172,7 +172,7 @@ button:hover,
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
   gap: 14px;
 }
 
