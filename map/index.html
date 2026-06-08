@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>World Slot Provider Availability Map - SlotAvailability</title>
+  <meta name="description" content="Explore slot provider availability by country. Select a provider and view country availability data across the SlotAvailability database." />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111315;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2f36;
+      background: #15181c;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #b8c0cc;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 60px 8%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #2a2f36;
+      border-radius: 999px;
+      color: #4fd1a5;
+      background: #1a1d21;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin: 0 0 16px;
+    }
+
+    .subtitle {
+      color: #b8c0cc;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .control-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      padding: 22px;
+      margin: 34px 0 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    select, button {
+      height: 52px;
+      border-radius: 10px;
+      border: 1px solid #2a2f36;
+      background: #111315;
+      color: #ffffff;
+      padding: 0 14px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #4fd1a5;
+      color: #07110d;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      padding: 0 28px;
+    }
+
+    .table-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid #2a2f36;
+      text-align: left;
+    }
+
+    th {
+      color: #9ca3af;
+      font-size: 13px;
+      background: #15181c;
+    }
+
+    a {
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    .status-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+      background: #2a2f36;
+      color: #d1d5db;
+    }
+
+    .status-badge.available {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .status-badge.unavailable {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .status-badge.unknown {
+      background: #2a2f36;
+      color: #d1d5db;
+    }
+
+    footer {
+      padding: 30px 8%;
+      color: #6b7280;
+      border-top: 1px solid #2a2f36;
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .control-card {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="/">SlotAvailability</a>
+    <nav>
+      <a href="/providers/">Providers</a>
+      <a href="/countries/">Countries</a>
+      <a href="/casino/stake/">Casino</a>
+      <a href="/map/">World Map</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="badge">World Availability Map</span>
+
+    <h1>World Slot Provider Availability Map</h1>
+
+    <p class="subtitle">
+      Select a slot provider and explore its availability across tracked countries.
+      This first version uses a country table; a visual world map will be added later.
+    </p>
+
+    <div class="control-card">
+      <select id="providerSelect">
+        <option value="hacksaw-gaming">Hacksaw Gaming</option>
+        <option value="pragmatic-play">Pragmatic Play</option>
+        <option value="nolimit-city">Nolimit City</option>
+        <option value="relax-gaming">Relax Gaming</option>
+        <option value="push-gaming">Push Gaming</option>
+        <option value="play-n-go">Play'n GO</option>
+        <option value="evolution">Evolution</option>
+        <option value="bgaming">BGaming</option>
+        <option value="elk-studios">ELK Studios</option>
+        <option value="thunderkick">Thunderkick</option>
+      </select>
+
+      <button id="loadButton">Update Map</button>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Casino</th>
+            <th>Availability</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="mapTable">
+          <tr>
+            <td colspan="4">Loading map data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const providerSelect = document.getElementById("providerSelect");
+    const loadButton = document.getElementById("loadButton");
+    const mapTable = document.getElementById("mapTable");
+
+    async function loadMapData() {
+      const providerSlug = providerSelect.value;
+
+      mapTable.innerHTML = `
+        <tr>
+          <td colspan="4">Loading map data...</td>
+        </tr>
+      `;
+
+      const { data, error } = await supabaseClient
+        .from("provider_availability")
+        .select("*")
+        .eq("provider_slug", providerSlug)
+        .order("country", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        mapTable.innerHTML = `
+          <tr>
+            <td colspan="4">Unable to load map data.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        mapTable.innerHTML = `
+          <tr>
+            <td colspan="4">No data found for this provider.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      mapTable.innerHTML = data.map(row => {
+        const availability =
+          row.available === null
+            ? "Unknown"
+            : row.available
+              ? "Available"
+              : "Not available";
+
+        const statusClass =
+          row.available === null
+            ? "unknown"
+            : row.available
+              ? "available"
+              : "unavailable";
+
+        return `
+          <tr>
+            <td>
+              <a href="/country/${row.country_slug}/">
+                ${row.country}
+              </a>
+            </td>
+            <td>${row.casino}</td>
+            <td>
+              <span class="status-badge ${statusClass}">
+                ${availability}
+              </span>
+            </td>
+            <td>
+              <a href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
+                View details
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    loadButton.addEventListener("click", loadMapData);
+
+    loadMapData();
+  </script>
+</body>
+</html>
