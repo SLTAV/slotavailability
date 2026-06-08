@@ -170,6 +170,48 @@
         display: none;
       }
     }
+    .result-card {
+  display: grid;
+  gap: 14px;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.availability-badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #2a2f36;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.availability-badge.unknown {
+  color: #d1d5db;
+}
+
+.result-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.result-meta div {
+  background: #111315;
+  border: 1px solid #2a2f36;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.result-meta span {
+  display: block;
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
   </style>
 </head>
 
@@ -329,11 +371,30 @@ console.log("Supabase error:", error);
           : "Not available";
 
     resultBox.innerHTML = `
+  <div class="result-card">
+    <div class="result-header">
       <h2>${provider} in ${country}</h2>
-      <p><strong>Casino:</strong> ${data[0].casino}</p>
-      <p><strong>Availability:</strong> ${availabilityText}</p>
-      <p><strong>Last checked:</strong> ${data[0].last_checked}</p>
-    `;
+      <span class="availability-badge unknown">${availabilityText}</span>
+    </div>
+
+    <div class="result-meta">
+      <div>
+        <span>Casino</span>
+        <strong>${data[0].casino}</strong>
+      </div>
+
+      <div>
+        <span>Country</span>
+        <strong>${country}</strong>
+      </div>
+
+      <div>
+        <span>Last checked</span>
+        <strong>${data[0].last_checked}</strong>
+      </div>
+    </div>
+  </div>
+`;
 
     resultSection.style.display = "block";
     resultSection.scrollIntoView({ behavior: "smooth" });
