@@ -462,8 +462,8 @@ console.log("Supabase error:", error);
     </div>
 
     <div style="margin-top:20px;">
-      <button id="providerPageButton">
-        View Provider Page
+      <button id="availabilityPageButton">
+        View Full Availability Page
       </button>
     </div>
 
@@ -473,13 +473,14 @@ console.log("Supabase error:", error);
     resultSection.style.display = "block";
     resultSection.scrollIntoView({ behavior: "smooth" });
     document
-  .getElementById("providerPageButton")
-  .addEventListener("click", () => {
+    .getElementById("availabilityPageButton")
+    .addEventListener("click", () => {
 
-    const slug = data[0].provider_slug;
+    const providerSlug = data[0].provider_slug;
+    const countrySlug = data[0].country_slug;
 
     window.location.href =
-      "/provider/" + slug;
+      "/availability/?provider=" + providerSlug + "&country=" + countrySlug;
 
   });
   });
