@@ -503,3 +503,10 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.grid .card {
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
