@@ -117,11 +117,19 @@
     }
 
     .card {
+      .card:hover {
+      transform: translateY(-3px);
+      border-color: #4fd1a5;
+    }
       background: #1a1d21;
       border: 1px solid #2a2f36;
       border-radius: 14px;
       padding: 18px;
       color: #d8dee9;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
     .card strong {
@@ -276,13 +284,59 @@
     
     <section class="section">
       <h2>Popular Providers</h2>
-      <div class="grid">
-        <div class="card"><strong>Hacksaw Gaming</strong><span class="status">10 countries tracked</span></div>
-        <div class="card"><strong>Pragmatic Play</strong><span class="status">10 countries tracked</span></div>
-        <div class="card"><strong>Nolimit City</strong><span class="status">10 countries tracked</span></div>
-        <div class="card"><strong>Relax Gaming</strong><span class="status">10 countries tracked</span></div>
-        <div class="card"><strong>Play'n GO</strong><span class="status">10 countries tracked</span></div>
-      </div>
+        <div class="grid">
+
+  <a href="/provider/hacksaw-gaming/" class="card">
+    <strong>Hacksaw Gaming</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/pragmatic-play/" class="card">
+    <strong>Pragmatic Play</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/nolimit-city/" class="card">
+    <strong>Nolimit City</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/relax-gaming/" class="card">
+    <strong>Relax Gaming</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/push-gaming/" class="card">
+    <strong>Push Gaming</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/play-n-go/" class="card">
+    <strong>Play'n GO</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/evolution/" class="card">
+    <strong>Evolution</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/bgaming/" class="card">
+    <strong>BGaming</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/elk-studios/" class="card">
+    <strong>ELK Studios</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+  <a href="/provider/thunderkick/" class="card">
+    <strong>Thunderkick</strong>
+    <span class="status">10 countries tracked</span>
+  </a>
+
+</div>
     </section>
 
     <section class="section">
