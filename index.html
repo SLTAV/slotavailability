@@ -1,10 +1,273 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SlotAvailability</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SlotAvailability - Slot Provider Availability Database</title>
+  <meta name="description" content="Search slot provider availability by country and casino. Find where Hacksaw Gaming, Pragmatic Play, Nolimit City and more are available worldwide." />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111315;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2f36;
+      background: #15181c;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #4fd1a5;
+    }
+
+    nav a {
+      color: #b8c0cc;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 80px 8%;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #2a2f36;
+      border-radius: 999px;
+      color: #4fd1a5;
+      background: #1a1d21;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 52px;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: #b8c0cc;
+      font-size: 18px;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .search-card {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    select, button {
+      height: 52px;
+      border-radius: 10px;
+      border: 1px solid #2a2f36;
+      background: #111315;
+      color: #ffffff;
+      padding: 0 14px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #4fd1a5;
+      color: #07110d;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      padding: 0 28px;
+    }
+
+    .section {
+      padding: 40px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 14px;
+      padding: 18px;
+      color: #d8dee9;
+    }
+
+    .card strong {
+      display: block;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .status {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: #15181c;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      padding: 28px;
+      color: #b8c0cc;
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 30px 8%;
+      color: #6b7280;
+      border-top: 1px solid #2a2f36;
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      h1 {
+        font-size: 36px;
+      }
+
+      .search-card {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>SlotAvailability</h1>
-  <p>Search provider availability worldwide.</p>
+  <header>
+    <div class="logo">SlotAvailability</div>
+    <nav>
+      <a href="#">Providers</a>
+      <a href="#">Countries</a>
+      <a href="#">Casino</a>
+      <a href="#">World Map</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="badge">Global Slot Provider Availability Database</div>
+
+      <h1>Find where your favorite slot providers are available.</h1>
+
+      <p class="subtitle">
+        Search slot provider availability by country and casino. Track providers like Hacksaw Gaming,
+        Pragmatic Play, Nolimit City, Relax Gaming, Play'n GO and more.
+      </p>
+
+      <div class="search-card">
+        <select>
+          <option>Select Provider</option>
+          <option>Hacksaw Gaming</option>
+          <option>Pragmatic Play</option>
+          <option>Nolimit City</option>
+          <option>Relax Gaming</option>
+          <option>Push Gaming</option>
+          <option>Play'n GO</option>
+          <option>Evolution</option>
+          <option>BGaming</option>
+          <option>ELK Studios</option>
+          <option>Thunderkick</option>
+        </select>
+
+        <select>
+          <option>Select Country</option>
+          <option>Canada</option>
+          <option>Brazil</option>
+          <option>Australia</option>
+          <option>New Zealand</option>
+          <option>Germany</option>
+          <option>Switzerland</option>
+          <option>Netherlands</option>
+          <option>Sweden</option>
+          <option>Norway</option>
+          <option>Finland</option>
+        </select>
+
+        <button>Search</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Popular Providers</h2>
+      <div class="grid">
+        <div class="card"><strong>Hacksaw Gaming</strong><span class="status">10 countries tracked</span></div>
+        <div class="card"><strong>Pragmatic Play</strong><span class="status">10 countries tracked</span></div>
+        <div class="card"><strong>Nolimit City</strong><span class="status">10 countries tracked</span></div>
+        <div class="card"><strong>Relax Gaming</strong><span class="status">10 countries tracked</span></div>
+        <div class="card"><strong>Play'n GO</strong><span class="status">10 countries tracked</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Tracked Countries</h2>
+      <div class="grid">
+        <div class="card"><strong>Canada</strong><span class="status">Stake tracked</span></div>
+        <div class="card"><strong>Brazil</strong><span class="status">Stake tracked</span></div>
+        <div class="card"><strong>Australia</strong><span class="status">Stake tracked</span></div>
+        <div class="card"><strong>Germany</strong><span class="status">Stake tracked</span></div>
+        <div class="card"><strong>Sweden</strong><span class="status">Stake tracked</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="info-box">
+        <h2>What is SlotAvailability?</h2>
+        <p>
+          SlotAvailability is building a global database that helps players check where slot providers
+          are available by country and casino. The MVP currently tracks 10 major providers across
+          10 priority countries on Stake.
+        </p>
+        <p>
+          Availability data is manually reviewed and will be updated regularly. Future versions will include
+          more casinos, more countries, provider statistics and an interactive world map.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
 </body>
 </html>
