@@ -203,11 +203,12 @@ nav a {
             <th>Availability</th>
             <th>Last checked</th>
             <th>Source</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody id="providersTable">
           <tr>
-            <td colspan="5">Loading country data...</td>
+            <td colspan="6">Loading country data...</td>
           </tr>
         </tbody>
       </table>
@@ -242,7 +243,7 @@ nav a {
         console.error(error);
         table.innerHTML = `
           <tr>
-            <td colspan="5">Unable to load country data.</td>
+            <td colspan="6">Unable to load country data.</td>
           </tr>
         `;
         return;
@@ -251,7 +252,7 @@ nav a {
       if (!data || data.length === 0) {
         table.innerHTML = `
           <tr>
-            <td colspan="5">No provider data found for this country.</td>
+            <td colspan="6">No provider data found for this country.</td>
           </tr>
         `;
         providerCount.textContent = "0";
