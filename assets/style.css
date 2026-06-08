@@ -452,3 +452,22 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.control-card {
+  background: rgba(26, 29, 33, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px;
+  margin: 34px 0 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 800px) {
+  .control-card {
+    grid-template-columns: 1fr;
+  }
+}
