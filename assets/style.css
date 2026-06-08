@@ -176,6 +176,11 @@ button:hover,
   gap: 14px;
 }
 
+.page .grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .card {
   background: rgba(26, 29, 33, 0.92);
   border: 1px solid var(--border);
