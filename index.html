@@ -291,11 +291,15 @@
     }
 
     const { data, error } = await supabaseClient
-      .from("provider_availability")
-      .select("*")
-      .eq("provider", provider)
-      .eq("country", country)
-      .single();
+  .from("provider_availability")
+  .select("*")
+  .eq("provider", provider)
+  .eq("country", country);
+
+console.log("Provider selected:", provider);
+console.log("Country selected:", country);
+console.log("Supabase data:", data);
+console.log("Supabase error:", error);
 
     if (error) {
   console.log("Provider selected:", provider);
@@ -305,11 +309,16 @@
   return;
 }
 
+    if (!data || data.length === 0) {
+  alert("No result found. Check console.");
+  return;
+}
+    
     alert(
       provider + " in " + country + "\\n" +
-      "Casino: " + data.casino + "\\n" +
-      "Availability: " + (data.available === null ? "Unknown" : data.available ? "Available" : "Not available") + "\\n" +
-      "Last checked: " + data.last_checked
+      "Casino: " + data[0].casino + "\\n" +
+"Availability: " + (data[0].available === null ? "Unknown" : data[0].available ? "Available" : "Not available") + "\\n" +
+"Last checked: " + data[0].last_checked
     );
   });
 </script>
