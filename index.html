@@ -298,10 +298,12 @@
       .single();
 
     if (error) {
-      alert("No result found.");
-      console.error(error);
-      return;
-    }
+  console.log("Provider selected:", provider);
+  console.log("Country selected:", country);
+  console.error("Supabase error:", error);
+  alert("No result found. Check console.");
+  return;
+}
 
     alert(
       provider + " in " + country + "\\n" +
