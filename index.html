@@ -372,12 +372,18 @@ console.log("Supabase error:", error);
 
     resultBox.innerHTML = `
   <div class="result-card">
+
     <div class="result-header">
       <h2>${provider} in ${country}</h2>
       <span class="availability-badge unknown">${availabilityText}</span>
     </div>
 
+    <p style="color:#9ca3af;margin-top:-5px;">
+      Availability has not been verified yet.
+    </p>
+
     <div class="result-meta">
+
       <div>
         <span>Casino</span>
         <strong>${data[0].casino}</strong>
@@ -392,12 +398,35 @@ console.log("Supabase error:", error);
         <span>Last checked</span>
         <strong>${data[0].last_checked}</strong>
       </div>
+
+      <div>
+        <span>Source</span>
+        <strong>${data[0].source || "Manual"}</strong>
+      </div>
+
     </div>
+
+    <div style="margin-top:20px;">
+      <button id="providerPageButton">
+        View Provider Page
+      </button>
+    </div>
+
   </div>
 `;
 
     resultSection.style.display = "block";
     resultSection.scrollIntoView({ behavior: "smooth" });
+    document
+  .getElementById("providerPageButton")
+  .addEventListener("click", () => {
+
+    const slug = data[0].provider_slug;
+
+    window.location.href =
+      "/provider/" + slug;
+
+  });
   });
 </script>
 </body>
