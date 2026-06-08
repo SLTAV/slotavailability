@@ -224,7 +224,7 @@
           <option>Finland</option>
         </select>
 
-        <button>Search</button>
+        <button id="searchButton">Search</button>
       </div>
     </section>
 
@@ -269,5 +269,47 @@
   <footer>
     © 2026 SlotAvailability. Independent availability database.
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_msWcQFS_XBNoDS_r5smTkg_7xvTDCcm";
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const providerSelect = document.querySelectorAll("select")[0];
+  const countrySelect = document.querySelectorAll("select")[1];
+  const searchButton = document.getElementById("searchButton");
+
+  searchButton.addEventListener("click", async () => {
+    const provider = providerSelect.value;
+    const country = countrySelect.value;
+
+    if (provider === "Select Provider" || country === "Select Country") {
+      alert("Please select a provider and a country.");
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("provider_availability")
+      .select("*")
+      .eq("provider", provider)
+      .eq("country", country)
+      .single();
+
+    if (error) {
+      alert("No result found.");
+      console.error(error);
+      return;
+    }
+
+    alert(
+      provider + " in " + country + "\\n" +
+      "Casino: " + data.casino + "\\n" +
+      "Availability: " + (data.available === null ? "Unknown" : data.available ? "Available" : "Not available") + "\\n" +
+      "Last checked: " + data.last_checked
+    );
+  });
+</script>
 </body>
 </html>
