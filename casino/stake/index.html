@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Stake Slot Provider Availability - SlotAvailability</title>
+  <meta name="description" content="Check which slot providers are tracked on Stake by country. Browse Hacksaw Gaming, Pragmatic Play, Nolimit City, Relax Gaming and more on Stake." />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111315;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2f36;
+      background: #15181c;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #b8c0cc;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 60px 8%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #2a2f36;
+      border-radius: 999px;
+      color: #4fd1a5;
+      background: #1a1d21;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin: 0 0 16px;
+    }
+
+    .subtitle {
+      color: #b8c0cc;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 34px 0;
+    }
+
+    .stat-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .stat-card span {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 24px;
+    }
+
+    .table-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid #2a2f36;
+      text-align: left;
+    }
+
+    th {
+      color: #9ca3af;
+      font-size: 13px;
+      background: #15181c;
+    }
+
+    a {
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    .status-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+      background: #2a2f36;
+      color: #d1d5db;
+    }
+
+    footer {
+      padding: 30px 8%;
+      color: #6b7280;
+      border-top: 1px solid #2a2f36;
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="/">SlotAvailability</a>
+    <nav>
+      <a href="/providers/">Providers</a>
+      <a href="/countries/">Countries</a>
+      <a href="/casino/stake/">Casino</a>
+      <a href="#">World Map</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="badge">Casino Availability</span>
+
+    <h1>Stake Slot Provider Availability</h1>
+
+    <p class="subtitle">
+      Browse slot providers tracked on Stake across priority countries. This page summarizes
+      the current MVP database for Stake provider availability.
+    </p>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span>Casino</span>
+        <strong>Stake</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Providers tracked</span>
+        <strong id="providerCount">Loading...</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Countries tracked</span>
+        <strong id="countryCount">Loading...</strong>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Countries tracked</th>
+            <th>Provider page</th>
+          </tr>
+        </thead>
+        <tbody id="casinoTable">
+          <tr>
+            <td colspan="3">Loading Stake data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadCasinoData() {
+      const { data, error } = await supabaseClient
+        .from("provider_availability")
+        .select("*")
+        .eq("casino", "Stake")
+        .order("provider", { ascending: true });
+
+      const table = document.getElementById("casinoTable");
+
+      if (error) {
+        console.error(error);
+        table.innerHTML = `
+          <tr>
+            <td colspan="3">Unable to load casino data.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        table.innerHTML = `
+          <tr>
+            <td colspan="3">No casino data found.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const providers = [...new Map(data.map(row => [
+        row.provider_slug,
+        {
+          provider: row.provider,
+          provider_slug: row.provider_slug,
+          countries: new Set()
+        }
+      ])).values()];
+
+      providers.forEach(provider => {
+        data
+          .filter(row => row.provider_slug === provider.provider_slug)
+          .forEach(row => provider.countries.add(row.country));
+      });
+
+      const countries = new Set(data.map(row => row.country));
+
+      document.getElementById("providerCount").textContent = providers.length;
+      document.getElementById("countryCount").textContent = countries.size;
+
+      table.innerHTML = providers.map(provider => `
+        <tr>
+          <td>${provider.provider}</td>
+          <td><span class="status-badge">${provider.countries.size}</span></td>
+          <td>
+            <a href="/provider/${provider.provider_slug}/">
+              View provider
+            </a>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    loadCasinoData();
+  </script>
+</body>
+</html>
