@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Hacksaw Gaming Availability - SlotAvailability</title>
+  <meta name="description" content="Check Hacksaw Gaming availability by country and casino. See where Hacksaw Gaming slots are available on Stake." />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111315;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 24px 8%;
+      border-bottom: 1px solid #2a2f36;
+      background: #15181c;
+    }
+
+    a {
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 60px 8%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #2a2f36;
+      border-radius: 999px;
+      color: #4fd1a5;
+      background: #1a1d21;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin: 0 0 16px;
+    }
+
+    .subtitle {
+      color: #b8c0cc;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 760px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 34px 0;
+    }
+
+    .stat-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .stat-card span {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 24px;
+    }
+
+    .table-card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid #2a2f36;
+      text-align: left;
+    }
+
+    th {
+      color: #9ca3af;
+      font-size: 13px;
+      background: #15181c;
+    }
+
+    .status-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+      background: #2a2f36;
+      color: #d1d5db;
+    }
+
+    footer {
+      padding: 30px 8%;
+      color: #6b7280;
+      border-top: 1px solid #2a2f36;
+      margin-top: 50px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="/">← Back to SlotAvailability</a>
+  </header>
+
+  <main>
+    <span class="badge">Provider Availability</span>
+
+    <h1>Hacksaw Gaming Availability in Canada</h1>
+
+    <p class="subtitle">
+        Check whether Hacksaw Gaming is available in Canada on Stake.
+        This page tracks availability status, last verification date and provider information.
+    </p>
+
+    <div class="stats">
+
+      <div class="stat-card">
+      <span>Provider</span>
+      <strong>Hacksaw Gaming</strong>
+      </div>
+
+    <div class="stat-card">
+      <span>Country</span>
+      <strong>Canada</strong>
+    </div>
+
+    <div class="stat-card">
+    <span>Casino</span>
+    <strong>Stake</strong>
+    </div>
+
+  </div>
+
+      <div class="stat-card">
+        <span>Casino tracked</span>
+        <strong>Stake</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Countries tracked</span>
+        <strong id="countryCount">Loading...</strong>
+      </div>
+    </div>
+
+    <div class="table-card" id="countryResult">
+    Loading...
+    </div>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadProviderData() {
+        const { data, error } = await supabaseClient
+        .from("provider_availability")
+        .select("*")
+        .eq("provider_slug", "hacksaw-gaming")
+        .eq("country_slug", "canada")
+        .single();
+
+
+        if (error) {
+      console.error(error);
+
+      document.getElementById("countryResult").innerHTML =
+        "<p>Unable to load availability data.</p>";
+
+      return;
+    }
+
+      const availability =
+  data.available === null
+    ? "Unknown"
+    : data.available
+      ? "Available"
+      : "Not available";
+
+document.getElementById("countryResult").innerHTML = `
+  <div style="padding:24px;">
+
+    <h2>Availability Status</h2>
+
+    <p><strong>Status:</strong> ${availability}</p>
+
+    <p><strong>Casino:</strong> ${data.casino}</p>
+
+    <p><strong>Last checked:</strong> ${data.last_checked}</p>
+
+    <p><strong>Source:</strong> ${data.source || "Manual"}</p>
+
+  </div>
+`;
+    }
+
+    loadProviderData();
+  </script>
+</body>
+</html>
