@@ -143,28 +143,27 @@
   <main>
     <span class="badge">Provider Availability</span>
 
-    <h1>Hacksaw Gaming Availability in Canada</h1>
+    <h1 id="pageTitle">Loading availability...</h1>
 
-    <p class="subtitle">
-        Check whether Hacksaw Gaming is available in Canada on Stake.
-        This page tracks availability status, last verification date and provider information.
+    <p class="subtitle" id="pageSubtitle">
+      Loading provider availability data...
     </p>
 
     <div class="stats">
 
       <div class="stat-card">
       <span>Provider</span>
-      <strong>Hacksaw Gaming</strong>
+      <strong id="providerName">Loading...</strong>
       </div>
 
       <div class="stat-card">
       <span>Country</span>
-      <strong>Canada</strong>
+      <strong id="countryName">Loading...</strong>
       </div>
 
       <div class="stat-card">
       <span>Casino</span>
-      <strong>Stake</strong>
+      <strong id="casinoName">Loading...</strong>
       </div>
 
     </div>
@@ -210,7 +209,19 @@
 
       return;
     }
+      document.getElementById("pageTitle").textContent =
+      `${data.provider} Availability in ${data.country}`;
 
+      document.getElementById("pageSubtitle").textContent =
+      `Check whether ${data.provider} is available in ${data.country} on ${data.casino}. This page tracks availability status, last verification date and provider information.`;
+
+      document.getElementById("providerName").textContent = data.provider;
+      document.getElementById("countryName").textContent = data.country;
+      document.getElementById("casinoName").textContent = data.casino;
+
+      document.title =
+      `${data.provider} Availability in ${data.country} | SlotAvailability`;
+      
       const availability =
   data.available === null
     ? "Unknown"
