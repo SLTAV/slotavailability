@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Countries - Slot Provider Availability | SlotAvailability</title>
+  <meta name="description" content="Browse countries tracked by SlotAvailability. Check which slot providers are available in Canada, Brazil, Australia, Germany, Sweden and more." />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111315;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2f36;
+      background: #15181c;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #4fd1a5;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #b8c0cc;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 70px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #2a2f36;
+      border-radius: 999px;
+      color: #4fd1a5;
+      background: #1a1d21;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin: 0 0 16px;
+    }
+
+    .subtitle {
+      color: #b8c0cc;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 760px;
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: #1a1d21;
+      border: 1px solid #2a2f36;
+      border-radius: 14px;
+      padding: 20px;
+      color: #d8dee9;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #4fd1a5;
+      background: #20242a;
+    }
+
+    .card strong {
+      display: block;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .status {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 30px 8%;
+      color: #6b7280;
+      border-top: 1px solid #2a2f36;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="/">SlotAvailability</a>
+    <nav>
+      <a href="/providers/">Providers</a>
+      <a href="/countries/">Countries</a>
+      <a href="#">Casino</a>
+      <a href="#">World Map</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="badge">Tracked Countries</span>
+
+    <h1>Countries</h1>
+
+    <p class="subtitle">
+      Browse countries currently tracked by SlotAvailability. Each country will show which slot providers
+      are available by casino, starting with Stake for the MVP.
+    </p>
+
+    <div class="grid">
+
+      <a href="/country/canada/" class="card">
+        <strong>Canada</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/brazil/" class="card">
+        <strong>Brazil</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/australia/" class="card">
+        <strong>Australia</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/new-zealand/" class="card">
+        <strong>New Zealand</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/germany/" class="card">
+        <strong>Germany</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/switzerland/" class="card">
+        <strong>Switzerland</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/netherlands/" class="card">
+        <strong>Netherlands</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/sweden/" class="card">
+        <strong>Sweden</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/norway/" class="card">
+        <strong>Norway</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+      <a href="/country/finland/" class="card">
+        <strong>Finland</strong>
+        <span class="status">10 providers tracked</span>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
+</body>
+</html>
