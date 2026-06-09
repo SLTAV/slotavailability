@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cas1 Slot Provider Availability - SlotAvailability</title>
+  <meta name="description" content="Check which slot providers are tracked on Cas1 by country. Browse provider availability across tracked countries on Cas1." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="/">Slot<span>Availability</span></a>
+    <nav>
+      <a href="/providers/">Providers</a>
+      <a href="/countries/">Countries</a>
+      <a href="/casino/stake/">Casino</a>
+      <a href="/map/">World Map</a>
+      <a href="/help-us/">Help Us</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+  <span class="badge">Casino Availability</span>
+
+  <h1>Cas1 Slot Provider Availability</h1>
+
+  <p class="subtitle">
+    Browse slot providers tracked on Cas1 across priority countries. This page summarizes
+    the current MVP database for Stake provider availability.
+  </p>
+</div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span>Casino</span>
+        <strong>Cas1</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Providers tracked</span>
+        <strong id="providerCount">Loading...</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Countries tracked</span>
+        <strong id="countryCount">Loading...</strong>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Countries tracked</th>
+            <th>Provider page</th>
+          </tr>
+        </thead>
+        <tbody id="casinoTable">
+          <tr>
+            <td colspan="3">Loading Stake data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+    <br><br>
+    <a href="/about/">About</a>
+    <a href="/help-us/">Help Us</a>
+    <a href="mailto:contact@slotavailability.com">Contact</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>     
+    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadCasinoData() {
+      const table = document.getElementById("casinoTable");
+
+    const { data, error } = await supabaseClient
+      .from("provider_availability")
+      .select("*")
+      .eq("casino", "Cas1")
+      .order("provider", { ascending: true });
+
+    if (error) {
+      console.error(error);
+      document.getElementById("providerCount").textContent = "Error";
+      document.getElementById("countryCount").textContent = "Error";
+      table.innerHTML = `
+        <tr>
+          <td colspan="3">Unable to load casino data.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      document.getElementById("providerCount").textContent = "0";
+      document.getElementById("countryCount").textContent = "0";
+      table.innerHTML = `
+        <tr>
+          <td colspan="3">No casino data found.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    const providersMap = new Map();
+    const countriesSet = new Set();
+
+    data.forEach(row => {
+      countriesSet.add(row.country);
+
+      if (!providersMap.has(row.provider_slug)) {
+        providersMap.set(row.provider_slug, {
+          provider: row.provider,
+          provider_slug: row.provider_slug,
+          countries: new Set()
+        });
+      }
+
+      providersMap.get(row.provider_slug).countries.add(row.country);
+    });
+
+    const providers = Array.from(providersMap.values());
+
+    document.getElementById("providerCount").textContent = providers.length;
+    document.getElementById("countryCount").textContent = countriesSet.size;
+
+    table.innerHTML = providers.map(provider => `
+      <tr>
+        <td>${provider.provider}</td>
+        <td><span class="status-badge unknown">${provider.countries.size}</span></td>
+        <td>
+          <a class="details-link" href="/provider/${provider.provider_slug}/">View provider</a>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  loadCasinoData();
+</script>
+  <script src="/assets/nav.js"></script>
+</body>
+</html>
