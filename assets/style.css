@@ -986,3 +986,7 @@ header nav a.active:hover {
     width: 100%;
   }
 }
+
+#resultSection {
+  margin-top: 52px;
+}
