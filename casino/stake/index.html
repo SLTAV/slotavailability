@@ -81,60 +81,60 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function loadCasinoData() {
-      const { data, error } = await supabaseClient
-        .from("provider_availability")
-        .select("*")
-        .eq("casino", "Stake")
-        .order("provider", { ascending: true });
+  async function loadCasinoData() {
+    const table = document.getElementById("casinoTable");
 
-      const table = document.getElementById("casinoTable");
+    const { data, error } = await supabaseClient
+      .from("provider_availability")
+      .select("*")
+      .eq("casino", "Stake")
+      .order("provider", { ascending: true });
 
-      if (error) {
-        console.error(error);
-        table.innerHTML = `
-          <tr>
-            <td colspan="3">Unable to load casino data.</td>
-          </tr>
-        `;
-        return;
+    if (error) {
+      console.error(error);
+      table.innerHTML = `
+        <tr>
+          <td colspan="3">Unable to load casino data.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      table.innerHTML = `
+        <tr>
+          <td colspan="3">No casino data found.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    const providers = [...new Map(data.map(row => [
+      row.provider_slug,
+      {
+        provider: row.provider,
+        provider_slug: row.provider_slug,
+        countries: new Set()
       }
+    ])).values()];
 
-      if (!data || data.length === 0) {
-        table.innerHTML = `
-          <tr>
-            <td colspan="3">No casino data found.</td>
-          </tr>
-        `;
-        return;
-      }
+    providers.forEach(provider => {
+      data
+        .filter(row => row.provider_slug === provider.provider_slug)
+        .forEach(row => provider.countries.add(row.country));
+    });
 
-      const providers = [...new Map(data.map(row => [
-        row.provider_slug,
-        {
-          provider: row.provider,
-          provider_slug: row.provider_slug,
-          countries: new Set()
-        }
-      ])).values()];
+    const countries = new Set(data.map(row => row.country));
 
-      providers.forEach(provider => {
-        data
-          .filter(row => row.provider_slug === provider.provider_slug)
-          .forEach(row => provider.countries.add(row.country));
-      });
+    document.getElementById("providerCount").textContent = providers.length;
+    document.getElementById("countryCount").textContent = countries.size;
 
-      const countries = new Set(data.map(row => row.country));
-
-      document.getElementById("providerCount").textContent = providers.length;
-      document.getElementById("countryCount").textContent = countries.size;
-
-      table.innerHTML = providers.map(provider => `
+    table.innerHTML = providers.map(provider => `
       <tr>
         <td>${provider.provider}</td>
         <td><span class="status-badge unknown">${provider.countries.size}</span></td>
@@ -143,8 +143,9 @@
         </td>
       </tr>
     `).join("");
+  }
 
-    loadCasinoData();
-  </script>
+  loadCasinoData();
+</script>
 </body>
 </html>
