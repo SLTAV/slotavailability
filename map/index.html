@@ -143,20 +143,13 @@
         return `
           <tr>
             <td>
-              <a href="/country/${row.country_slug}/">
-                ${row.country}
-              </a>
-            </td>
+              <a href="/country/${row.country_slug}/">${row.country}</a></td>
             <td>${row.casino}</td>
             <td>
               <span class="status-badge ${statusClass}">${availability}</span>
-                ${availability}
-              </span>
             </td>
             <td>
               <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">View details</a>
-                View details
-              </a>
             </td>
           </tr>
         `;
