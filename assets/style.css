@@ -1061,3 +1061,8 @@ header nav a.active:hover {
     grid-template-columns: 1fr;
   }
 }
+
+#countryResult {
+  max-width: 760px;
+  margin: 0 auto;
+}
