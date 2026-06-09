@@ -168,8 +168,9 @@ button:hover,
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  align-items: stretch;
 }
 
 .page .grid {
@@ -180,7 +181,7 @@ button:hover,
 .card {
   display: block;
   padding: 26px 24px;
-  min-height: 128px;
+  height: 146px;
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
@@ -211,6 +212,9 @@ button:hover,
   font-size: 17px;
   line-height: 1.25;
   margin-bottom: 10px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
 }
 
 .card .status {
@@ -354,11 +358,7 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .result-meta {
+    .result-meta {
     grid-template-columns: 1fr;
   }
 }
@@ -371,10 +371,7 @@ footer a:hover {
   .section {
     padding: 34px 6%;
   }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
+  
 }
 
 .page {
@@ -525,7 +522,7 @@ footer a:hover {
 }
 
 .grid .card {
-  min-height: 128px;
+  height: 146px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -780,8 +777,4 @@ header nav a.active:hover {
   background: rgba(56, 189, 248, 0.15);
   border-color: rgba(56, 189, 248, 0.58);
   box-shadow: 0 0 22px rgba(56, 189, 248, 0.12);
-}
-
-.grid {
-  gap: 18px;
 }
