@@ -81,91 +81,75 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+  const SUPABASE_URL = "TA_VRAIE_URL_SUPABASE";
+  const SUPABASE_KEY = "TA_VRAIE_CLE_SUPABASE";
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function loadCasinoData() {
     const table = document.getElementById("casinoTable");
+    const providerCount = document.getElementById("providerCount");
+    const countryCount = document.getElementById("countryCount");
 
-    try {
-      console.log("Casino page script started");
+    const response = await supabaseClient
+      .from("provider_availability")
+      .select("*")
+      .eq("casino", "Stake")
+      .order("provider", { ascending: true });
 
-      if (!window.supabase) {
-        throw new Error("Supabase library not loaded");
-      }
+    if (response.error) {
+      console.error(response.error);
+      providerCount.textContent = "Error";
+      countryCount.textContent = "Error";
+      table.innerHTML = "<tr><td colspan='3'>Unable to load casino data.</td></tr>";
+      return;
+    }
 
-      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const data = response.data;
 
-      const { data, error } = await supabaseClient
-        .from("provider_availability")
-        .select("*")
-        .eq("casino", "Stake")
-        .order("provider", { ascending: true });
+    if (!data || data.length === 0) {
+      providerCount.textContent = "0";
+      countryCount.textContent = "0";
+      table.innerHTML = "<tr><td colspan='3'>No casino data found.</td></tr>";
+      return;
+    }
 
-      console.log("Casino data:", data);
-      console.log("Casino error:", error);
+    const providersMap = new Map();
+    const countriesSet = new Set();
 
-      if (error) {
-        throw error;
-      }
+    data.forEach(function(row) {
+      countriesSet.add(row.country);
 
-      if (!data || data.length === 0) {
-        document.getElementById("providerCount").textContent = "0";
-        document.getElementById("countryCount").textContent = "0";
-
-        table.innerHTML = `
-          <tr>
-            <td colspan="3">No casino data found.</td>
-          </tr>
-        `;
-        return;
-      }
-
-      const providers = [...new Map(data.map(row => [
-        row.provider_slug,
-        {
+      if (!providersMap.has(row.provider_slug)) {
+        providersMap.set(row.provider_slug, {
           provider: row.provider,
           provider_slug: row.provider_slug,
           countries: new Set()
-        }
-      ])).values()];
+        });
+      }
 
-      providers.forEach(provider => {
-        data
-          .filter(row => row.provider_slug === provider.provider_slug)
-          .forEach(row => provider.countries.add(row.country));
-      });
+      providersMap.get(row.provider_slug).countries.add(row.country);
+    });
 
-      const countries = new Set(data.map(row => row.country));
+    const providers = Array.from(providersMap.values());
 
-      document.getElementById("providerCount").textContent = providers.length;
-      document.getElementById("countryCount").textContent = countries.size;
+    providerCount.textContent = providers.length;
+    countryCount.textContent = countriesSet.size;
 
-      table.innerHTML = providers.map(provider => `
-        <tr>
-          <td>${provider.provider}</td>
-          <td><span class="status-badge unknown">${provider.countries.size}</span></td>
-          <td>
-            <a class="details-link" href="/provider/${provider.provider_slug}/">View provider</a>
-          </td>
-        </tr>
-      `).join("");
+    let html = "";
 
-    } catch (err) {
-      console.error("Casino page crashed:", err);
+    providers.forEach(function(provider) {
+      html += "<tr>";
+      html += "<td>" + provider.provider + "</td>";
+      html += "<td><span class='status-badge unknown'>" + provider.countries.size + "</span></td>";
+      html += "<td><a class='details-link' href='/provider/" + provider.provider_slug + "/'>View provider</a></td>";
+      html += "</tr>";
+    });
 
-      document.getElementById("providerCount").textContent = "Error";
-      document.getElementById("countryCount").textContent = "Error";
-
-      table.innerHTML = `
-        <tr>
-          <td colspan="3">Script error: ${err.message}</td>
-        </tr>
-      `;
-    }
+    table.innerHTML = html;
   }
 
   loadCasinoData();
-</script>
+  </script>
 </body>
 </html>
