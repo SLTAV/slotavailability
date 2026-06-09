@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isActive = true;
     }
 
-    if (href === "/casino/stake/" && path.startsWith("/casino/")) {
+    if (href === "/casinos/" && (path === "/casinos/" || path.startsWith("/casino/"))) {
       isActive = true;
     }
 
