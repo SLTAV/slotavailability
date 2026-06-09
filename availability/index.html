@@ -113,14 +113,20 @@
         if (error) {
           console.error(error);
 
+          document.getElementById("countryResult").innerHTML =
+            "<p>Unable to load availability data.</p>";
+
+        return;
+      }
+
         if (!data || data.length === 0) {
           document.getElementById("countryResult").innerHTML =
             "<p>No availability data found.</p>";
 
-      return;
-    }
-
-        const firstResult = data[0];
+        return;
+      }
+      
+          const firstResult = data[0];
 
           document.getElementById("countryResult").innerHTML =
         "<p>Unable to load availability data.</p>";
