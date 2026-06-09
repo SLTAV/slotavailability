@@ -1066,3 +1066,10 @@ header nav a.active:hover {
   max-width: 760px;
   margin: 0 auto;
 }
+
+.result-meta .flag {
+  display: inline;
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: -1px;
+}
