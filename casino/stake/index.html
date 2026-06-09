@@ -134,15 +134,15 @@
       document.getElementById("providerCount").textContent = providers.length;
       document.getElementById("countryCount").textContent = countries.size;
 
-      table.innerHTML = providers.map(provider => `
-        <tr>
-          <td>${provider.provider}</td>
-          <td><span class="status-badge">${provider.countries.size}</span></td>
-          <td>
-            <a class="details-link" href="/provider/${row.provider_slug}/">View provider</a>
-          </td>
-        </tr>
-      `).join("");
+      table.innerHTML = rows.map(row => `
+  <tr>
+    <td>${row.provider}</td>
+    <td><span class="status-badge unknown">10</span></td>
+    <td>
+      <a class="details-link" href="/provider/${row.provider_slug}/">View provider</a>
+    </td>
+  </tr>
+`).join("");
     }
 
     loadCasinoData();
