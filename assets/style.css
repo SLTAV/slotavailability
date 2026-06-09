@@ -588,3 +588,52 @@ footer a:hover {
   border-color: rgba(56, 189, 248, 0.55);
   transform: translateY(-1px);
 }
+
+.table-card {
+  overflow: hidden;
+}
+
+.table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-card th {
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-card td {
+  padding: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.table-card tr:last-child td {
+  border-bottom: none;
+}
+
+.table-card tbody tr {
+  transition: background 0.18s ease;
+}
+
+.table-card tbody tr:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.table-card td a:not(.details-link) {
+  color: var(--text-main);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.table-card td a:not(.details-link):hover {
+  color: var(--accent);
+}
