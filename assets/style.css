@@ -684,7 +684,7 @@ footer a:hover {
   max-width: 100%;
 }
 
-header nav a {
+header nav a { 
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -713,7 +713,7 @@ header nav a::before {
     120deg,
     transparent 0%,
     transparent 30%,
-    #7dd3fc 50%,
+    var(--accent) 50%,
     transparent 70%,
     transparent 100%
   );
@@ -744,10 +744,10 @@ header nav a:hover::before {
 }
 
 header nav a.active {
-  color: #7dd3fc;
-  background: rgba(56, 189, 248, 0.10);
-  border-color: rgba(56, 189, 248, 0.38);
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.08);
+  color: var(--accent);
+  background: rgba(34, 197, 94, 0.10);
+  border-color: rgba(34, 197, 94, 0.38);
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.08);
 }
 
 header nav a.active::before {
@@ -755,14 +755,14 @@ header nav a.active::before {
   transform: translateX(0);
   background: linear-gradient(
     135deg,
-    rgba(125, 211, 252, 0.25),
-    rgba(125, 211, 252, 0.95),
-    rgba(125, 211, 252, 0.25)
+    rgba(34, 197, 94, 0.25),
+    rgba(34, 197, 94, 0.95),
+    rgba(34, 197, 94, 0.25)
   );
 }
 
 header nav a.active:hover {
-  background: rgba(56, 189, 248, 0.15);
-  border-color: rgba(56, 189, 248, 0.58);
-  box-shadow: 0 0 22px rgba(56, 189, 248, 0.12);
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.58);
+  box-shadow: 0 0 22px rgba(34, 197, 94, 0.12);
 }
