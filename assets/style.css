@@ -781,9 +781,10 @@ header nav a.active:hover {
 
 /* Homepage search polish */
 .search-card {
-  max-width: 920px;
+  width: fit-content;
+  max-width: 100%;
   margin: 36px auto 0;
-  padding: 24px;
+  padding: 22px;
   border-radius: 24px;
   background:
     linear-gradient(180deg, rgba(56, 189, 248, 0.075), rgba(255, 255, 255, 0.018)),
@@ -794,7 +795,7 @@ header nav a.active:hover {
 
 .search-row {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 210px 210px 120px;
   gap: 14px;
   align-items: center;
 }
