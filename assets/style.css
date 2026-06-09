@@ -659,3 +659,15 @@ footer a:hover {
   font-size: 16px;
   vertical-align: -1px;
 }
+
+.stats {
+  max-width: 960px;
+  margin: 0 auto 32px;
+}
+
+.stat-card {
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
