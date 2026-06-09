@@ -637,3 +637,19 @@ footer a:hover {
 .table-card td a:not(.details-link):hover {
   color: var(--accent);
 }
+
+@media (max-width: 760px) {
+  .table-card {
+    overflow-x: auto;
+  }
+
+  .table-card table {
+    min-width: 720px;
+  }
+
+  .table-card th,
+  .table-card td {
+    padding: 14px 12px;
+    white-space: nowrap;
+  }
+}
