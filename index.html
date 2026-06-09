@@ -262,16 +262,29 @@ console.log("Supabase error:", error);
           ? "Available"
           : "Not available";
 
+    const availabilityClass =
+      data[0].available === null
+        ? "unknown"
+        : data[0].available
+          ? "available"
+          : "unavailable";
+
     resultBox.innerHTML = `
   <div class="result-card">
 
     <div class="result-header">
       <h2>${provider} in ${country}</h2>
-      <span class="availability-badge unknown">${availabilityText}</span>
+      <span class="status-badge ${availabilityClass}">${availabilityText}</span>
     </div>
 
     <p style="color:#9ca3af;margin-top:-5px;">
-      Availability has not been verified yet.
+      ${
+        data[0].available === null
+          ? "Availability has not been verified yet."
+          : data[0].available
+            ? "This provider appears to be available for this country and casino."
+            : "This provider appears to be unavailable for this country and casino."
+      }
     </p>
 
     <div class="result-meta">
