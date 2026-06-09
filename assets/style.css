@@ -653,3 +653,9 @@ footer a:hover {
     white-space: nowrap;
   }
 }
+
+.flag {
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: -1px;
+}
