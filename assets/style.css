@@ -671,3 +671,10 @@ footer a:hover {
   flex-direction: column;
   justify-content: center;
 }
+
+.detail-item .flag {
+  display: inline;
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: -1px;
+}
