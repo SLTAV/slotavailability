@@ -97,110 +97,90 @@
 }
 
     async function loadProviderData() {
-        const params = new URLSearchParams(window.location.search);
-        const providerSlug = params.get("provider");
-        const countrySlug = params.get("country");
-        const casino = params.get("casino") || "Stake";
+  const params = new URLSearchParams(window.location.search);
+  const providerSlug = params.get("provider");
+  const countrySlug = params.get("country");
 
-        const { data, error } = await supabaseClient
-          .from("provider_availability")
-          .select("*")
-          .eq("provider_slug", providerSlug)
-          .eq("country_slug", countrySlug)
-          .order("casino", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("provider_availability")
+    .select("*")
+    .eq("provider_slug", providerSlug)
+    .eq("country_slug", countrySlug)
+    .order("casino", { ascending: true });
 
+  if (error) {
+    console.error(error);
 
-        if (error) {
-          console.error(error);
+    document.getElementById("countryResult").innerHTML =
+      "<p>Unable to load availability data.</p>";
 
-          document.getElementById("countryResult").innerHTML =
-            "<p>Unable to load availability data.</p>";
+    return;
+  }
 
-        return;
-      }
+  if (!data || data.length === 0) {
+    document.getElementById("countryResult").innerHTML =
+      "<p>No availability data found.</p>";
 
-        if (!data || data.length === 0) {
-          document.getElementById("countryResult").innerHTML =
-            "<p>No availability data found.</p>";
+    return;
+  }
 
-        return;
-      }
-      
-          const firstResult = data[0];
+  const firstResult = data[0];
 
-          document.getElementById("countryResult").innerHTML =
-        "<p>Unable to load availability data.</p>";
+  document.getElementById("pageTitle").textContent =
+    `${firstResult.provider} Availability in ${getFlag(firstResult.country_slug)} ${firstResult.country}`;
 
-      return;
-    }
-      document.getElementById("pageTitle").textContent =
-  `${firstResult.provider} Availability in ${getFlag(firstResult.country_slug)} ${firstResult.country}`;
+  document.getElementById("pageSubtitle").textContent =
+    `Check whether ${firstResult.provider} is available in ${getFlag(firstResult.country_slug)} ${firstResult.country} across tracked casinos.`;
 
-      document.getElementById("pageSubtitle").textContent =
-  `Check whether ${firstResult.provider} is available in ${getFlag(firstResult.country_slug)} ${firstResult.country} across tracked casinos.`;
-      
-      document.getElementById("providerName").textContent = firstResult.provider;
+  document.getElementById("providerName").textContent = firstResult.provider;
 
-      document.getElementById("countryName").textContent =
-        `${getFlag(firstResult.country_slug)} ${firstResult.country}`;
+  document.getElementById("countryName").textContent =
+    `${getFlag(firstResult.country_slug)} ${firstResult.country}`;
 
-      document.getElementById("casinoName").textContent =
-        `${data.length} casinos tracked`;
-          document.title =
-  `${firstResult.provider} Availability in ${firstResult.country} | SlotAvailability`;
-      
-      const availability =
-  data.available === null
-    ? "Unknown"
-    : data.available
-      ? "Available"
-      : "Not available";
+  document.getElementById("casinoName").textContent =
+    `${data.length} casinos tracked`;
 
-const statusClass =
-  data.available === null
-    ? "unknown"
-    : data.available
-      ? "available"
-      : "unavailable";
+  document.title =
+    `${firstResult.provider} Availability in ${firstResult.country} | SlotAvailability`;
 
-document.getElementById("countryResult").innerHTML = `
-  <div class="detail-card">
+  document.getElementById("countryResult").innerHTML = `
+    <div class="detail-card">
 
-    <div class="detail-header">
-      <h2>Casino Availability</h2>
-      <span class="status-badge unknown">${data.length} casinos</span>
+      <div class="detail-header">
+        <h2>Casino Availability</h2>
+        <span class="status-badge unknown">${data.length} casinos</span>
+      </div>
+
+      <div class="detail-grid">
+        ${data.map(row => {
+          const availability =
+            row.available === null
+              ? "Unknown"
+              : row.available
+                ? "Available"
+                : "Not available";
+
+          const statusClass =
+            row.available === null
+              ? "unknown"
+              : row.available
+                ? "available"
+                : "unavailable";
+
+          return `
+            <div class="detail-item">
+              <span>${row.casino}</span>
+              <strong>
+                <span class="status-badge ${statusClass}">${availability}</span>
+              </strong>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
     </div>
-
-    <div class="detail-grid">
-      ${data.map(row => {
-        const availability =
-          row.available === null
-            ? "Unknown"
-            : row.available
-              ? "Available"
-              : "Not available";
-
-        const statusClass =
-          row.available === null
-            ? "unknown"
-            : row.available
-              ? "available"
-              : "unavailable";
-
-        return `
-          <div class="detail-item">
-            <span>${row.casino}</span>
-            <strong>
-              <span class="status-badge ${statusClass}">${availability}</span>
-            </strong>
-          </div>
-        `;
-      }).join("")}
-    </div>
-
-  </div>
-`;
-    }
+  `;
+}
 
     loadProviderData();
   </script>
