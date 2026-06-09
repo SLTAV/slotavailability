@@ -132,9 +132,7 @@
   <td>${row.last_checked}</td>
   <td>${row.source || "Manual"}</td>
   <td>
-    <a href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
-      View details
-    </a>
+  <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">View details</a>
   </td>
 </tr>
         `;
