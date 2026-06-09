@@ -989,4 +989,5 @@ header nav a.active:hover {
 
 #resultSection {
   margin-top: 52px;
+  scroll-margin-top: 120px;
 }
