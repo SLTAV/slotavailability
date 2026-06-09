@@ -323,7 +323,10 @@ console.log("Supabase error:", error);
 `;
 
     resultSection.style.display = "block";
-    resultSection.scrollIntoView({ behavior: "smooth" });
+    resultSection.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
     document
     .getElementById("availabilityPageButton")
     .addEventListener("click", () => {
