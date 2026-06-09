@@ -787,7 +787,3 @@ header nav a.active:hover {
 .grid {
   gap: 18px;
 }
-
-.grid .card {
-  justify-content: center;
-}
