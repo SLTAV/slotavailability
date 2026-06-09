@@ -113,6 +113,13 @@
               ? "Available"
               : "Not available";
 
+        const statusClass =
+          row.available === null
+            ? "unknown"
+            : row.available
+              ? "available"
+              : "unavailable";
+        
         return `
           <tr>
   <td>
@@ -121,7 +128,7 @@
     </a>
   </td>
   <td>${row.casino}</td>
-  <td><span class="status-badge">${availability}</span></td>
+  <td><span class="status-badge ${statusClass}">${availability}</span></td>
   <td>${row.last_checked}</td>
   <td>${row.source || "Manual"}</td>
   <td>
