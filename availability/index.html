@@ -100,6 +100,7 @@
         const params = new URLSearchParams(window.location.search);
         const providerSlug = params.get("provider");
         const countrySlug = params.get("country");
+        const casino = params.get("casino") || "Stake";
 
         const { data, error } = await supabaseClient
           .from("provider_availability")
