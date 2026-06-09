@@ -118,18 +118,52 @@
       ? "Available"
       : "Not available";
 
+const statusClass =
+  data.available === null
+    ? "unknown"
+    : data.available
+      ? "available"
+      : "unavailable";
+
 document.getElementById("countryResult").innerHTML = `
-  <div style="padding:24px;">
+  <div class="detail-card">
 
-    <h2>Availability Status</h2>
+    <div class="detail-header">
+      <h2>Availability Status</h2>
+      <span class="status-badge ${statusClass}">${availability}</span>
+    </div>
 
-    <p><strong>Status:</strong> ${availability}</p>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span>Provider</span>
+        <strong>${data.provider}</strong>
+      </div>
 
-    <p><strong>Casino:</strong> ${data.casino}</p>
+      <div class="detail-item">
+        <span>Country</span>
+        <strong>${data.country}</strong>
+      </div>
 
-    <p><strong>Last checked:</strong> ${data.last_checked}</p>
+      <div class="detail-item">
+        <span>Casino</span>
+        <strong>${data.casino}</strong>
+      </div>
 
-    <p><strong>Source:</strong> ${data.source || "Manual"}</p>
+      <div class="detail-item">
+        <span>Last checked</span>
+        <strong>${data.last_checked}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Source</span>
+        <strong>${data.source || "Manual"}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Status</span>
+        <strong>${availability}</strong>
+      </div>
+    </div>
 
   </div>
 `;
