@@ -82,6 +82,23 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    function getFlag(countrySlug) {
+  const flags = {
+    "canada": "🇨🇦",
+    "brazil": "🇧🇷",
+    "australia": "🇦🇺",
+    "new-zealand": "🇳🇿",
+    "germany": "🇩🇪",
+    "switzerland": "🇨🇭",
+    "netherlands": "🇳🇱",
+    "sweden": "🇸🇪",
+    "norway": "🇳🇴",
+    "finland": "🇫🇮"
+  };
+
+  return flags[countrySlug] || "🌍";
+}
+
     async function loadCountryData() {
       const countrySlug = "sweden";
 
@@ -116,13 +133,14 @@
 
       const countryName = data[0].country;
 
-      document.getElementById("pageTitle").textContent =
-        `Slot Providers in ${countryName}`;
+document.getElementById("pageTitle").textContent =
+  `${getFlag(countrySlug)} Slot Providers in ${countryName}`;
 
-      document.getElementById("pageSubtitle").textContent =
-        `Check which slot providers are available in ${countryName} on Stake.`;
+document.getElementById("pageSubtitle").textContent =
+  `Check which slot providers are available in ${countryName} on Stake.`;
 
-      document.getElementById("countryName").textContent = countryName;
+document.getElementById("countryName").textContent =
+  `${getFlag(countrySlug)} ${countryName}`;
 
       document.title =
         `Slot Providers in ${countryName} | SlotAvailability`;
