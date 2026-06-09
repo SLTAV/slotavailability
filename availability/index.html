@@ -107,30 +107,41 @@
           .select("*")
           .eq("provider_slug", providerSlug)
           .eq("country_slug", countrySlug)
-          .single();
+          .order("casino", { ascending: true });
 
 
         if (error) {
-      console.error(error);
+          console.error(error);
 
-      document.getElementById("countryResult").innerHTML =
+        if (!data || data.length === 0) {
+          document.getElementById("countryResult").innerHTML =
+            "<p>No availability data found.</p>";
+
+      return;
+    }
+
+        const firstResult = data[0];
+
+          document.getElementById("countryResult").innerHTML =
         "<p>Unable to load availability data.</p>";
 
       return;
     }
       document.getElementById("pageTitle").textContent =
-  `${data.provider} Availability in ${getFlag(data.country_slug)} ${data.country}`;
+  `${firstResult.provider} Availability in ${getFlag(firstResult.country_slug)} ${firstResult.country}`;
 
       document.getElementById("pageSubtitle").textContent =
-      `Check whether ${data.provider} is available in ${getFlag(data.country_slug)} ${data.country} on ${data.casino}. This page tracks availability status, last verification date and provider information.`;
+  `Check whether ${firstResult.provider} is available in ${getFlag(firstResult.country_slug)} ${firstResult.country} across tracked casinos.`;
       
-      document.getElementById("providerName").textContent = data.provider;
-      document.getElementById("countryName").textContent =
-      `${getFlag(data.country_slug)} ${data.country}`;
-      document.getElementById("casinoName").textContent = data.casino;
+      document.getElementById("providerName").textContent = firstResult.provider;
 
-      document.title =
-      `${data.provider} Availability in ${data.country} | SlotAvailability`;
+      document.getElementById("countryName").textContent =
+        `${getFlag(firstResult.country_slug)} ${firstResult.country}`;
+
+      document.getElementById("casinoName").textContent =
+        `${data.length} casinos tracked`;
+          document.title =
+  `${firstResult.provider} Availability in ${firstResult.country} | SlotAvailability`;
       
       const availability =
   data.available === null
@@ -150,40 +161,35 @@ document.getElementById("countryResult").innerHTML = `
   <div class="detail-card">
 
     <div class="detail-header">
-      <h2>Availability Status</h2>
-      <span class="status-badge ${statusClass}">${availability}</span>
+      <h2>Casino Availability</h2>
+      <span class="status-badge unknown">${data.length} casinos</span>
     </div>
 
     <div class="detail-grid">
-      <div class="detail-item">
-        <span>Provider</span>
-        <strong>${data.provider}</strong>
-      </div>
+      ${data.map(row => {
+        const availability =
+          row.available === null
+            ? "Unknown"
+            : row.available
+              ? "Available"
+              : "Not available";
 
-      <div class="detail-item">
-        <span>Country</span>
-        <strong><span class="flag">${getFlag(data.country_slug)}</span>${data.country}</strong>
-      </div>
+        const statusClass =
+          row.available === null
+            ? "unknown"
+            : row.available
+              ? "available"
+              : "unavailable";
 
-      <div class="detail-item">
-        <span>Casino</span>
-        <strong>${data.casino}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Last checked</span>
-        <strong>${data.last_checked}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Source</span>
-        <strong>${data.source || "Manual"}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Status</span>
-        <strong>${availability}</strong>
-      </div>
+        return `
+          <div class="detail-item">
+            <span>${row.casino}</span>
+            <strong>
+              <span class="status-badge ${statusClass}">${availability}</span>
+            </strong>
+          </div>
+        `;
+      }).join("")}
     </div>
 
   </div>
