@@ -43,7 +43,7 @@
 
       <div class="stat-card">
       <span>Country</span>
-      <strong><span class="flag">${getFlag(data.country_slug)}</span>${data.country}</strong>
+      <strong id="countryName">Loading...</strong>
       </div>
 
       <div class="stat-card">
@@ -119,10 +119,11 @@
   `${data.provider} Availability in ${getFlag(data.country_slug)} ${data.country}`;
 
       document.getElementById("pageSubtitle").textContent =
-  `Check whether ${data.provider} is available in ${getFlag(data.country_slug)} ${data.country} on ${data.casino}. This page tracks availability status, last verification date and provider information.`;
+      `Check whether ${data.provider} is available in ${getFlag(data.country_slug)} ${data.country} on ${data.casino}. This page tracks availability status, last verification date and provider information.`;
       
       document.getElementById("providerName").textContent = data.provider;
-      document.getElementById("countryName").textContent = data.country;
+      document.getElementById("countryName").textContent =
+      `${getFlag(data.country_slug)} ${data.country}`;
       document.getElementById("casinoName").textContent = data.casino;
 
       document.title =
