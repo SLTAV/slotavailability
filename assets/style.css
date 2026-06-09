@@ -125,6 +125,8 @@ h2 {
   grid-template-columns: 1fr 1fr auto;
   gap: 14px;
   box-shadow: var(--shadow-soft);
+  display: flex;
+  justify-content: center;
 }
 
 select,
@@ -869,4 +871,13 @@ header nav a.active:hover {
   #searchButton {
     width: 100%;
   }
+}
+
+.hero .search-card {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.hero .search-row {
+  justify-content: center;
 }
