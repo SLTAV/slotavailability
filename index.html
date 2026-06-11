@@ -285,6 +285,8 @@ console.log("Supabase error:", error);
           ? "Available"
           : "Not available";
 
+    const casinosTracked = new Set(data.map(row => row.casino)).size;
+
     const availabilityClass =
       data[0].available === null
         ? "unknown"
@@ -300,21 +302,15 @@ console.log("Supabase error:", error);
       <span class="status-badge ${availabilityClass}">${availabilityText}</span>
     </div>
 
-    <p style="color:#9ca3af;margin-top:-5px;">
-      ${
-        data[0].available === null
-          ? "Availability has not been verified yet."
-          : data[0].available
-            ? "This provider appears to be available for this country and casino."
-            : "This provider appears to be unavailable for this country and casino."
-      }
-    </p>
+      <p style="color:#9ca3af;margin-top:-5px;">
+        ${casinosTracked} casino${casinosTracked > 1 ? "s" : ""} tracked for this provider and country.
+      </p>
 
     <div class="result-meta">
 
       <div>
-        <span>Casino</span>
-        <strong>${data[0].casino}</strong>
+        <span>Casinos tracked</span>
+        <<strong>${casinosTracked}</strong>
       </div>
 
       <div>
