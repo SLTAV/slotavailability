@@ -126,7 +126,10 @@
       }
 
       const countriesTracked = new Set(data.map(row => row.country_slug)).size;
-document.getElementById("countryCount").textContent = countriesTracked;
+      const casinosTracked = new Set(data.map(row => row.casino)).size;
+      
+      document.getElementById("countryCount").textContent = countriesTracked;
+      document.getElementById("casinoCount").textContent = casinosTracked;
 
       table.innerHTML = data.map(row => {
         const availability =
