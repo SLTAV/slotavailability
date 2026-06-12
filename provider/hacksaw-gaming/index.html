@@ -107,7 +107,7 @@
   const { data, error } = await supabaseClient
     .from("provider_availability")
     .select("*")
-    .eq("provider_slug", "Hacksaw Gaming")
+    .eq("provider_slug", "hacksaw-gaming")
     .order("country", { ascending: true });
 
   const table = document.getElementById("availabilityTable");
