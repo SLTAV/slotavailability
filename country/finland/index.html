@@ -151,7 +151,8 @@ document.getElementById("countryName").textContent =
       document.title =
         `Slot Providers in ${countryName} | SlotAvailability`;
 
-      providerCount.textContent = data.length;
+      const providersTracked = new Set(data.map(row => row.provider_slug)).size;
+document.getElementById("providerCount").textContent = providersTracked;
 
       table.innerHTML = data.map(row => {
         const availability =
