@@ -104,95 +104,108 @@
   }
 
     async function loadProviderData() {
-      const { data, error } = await supabaseClient
-        .from("provider_availability")
-        .select("*")
-        .eq("provider_slug", "bgaming")
-        .order("country", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("provider_availability")
+    .select("*")
+    .eq("provider_slug", "bgaming")
+    .order("country", { ascending: true });
 
-      const table = document.getElementById("availabilityTable");
-      const countryCount = document.getElementById("countryCount");
+  const table = document.getElementById("availabilityTable");
 
-      if (error) {
-        console.error(error);
-        table.innerHTML = `
-          <tr>
-            <td colspan="6">Unable to load availability data.</td>
-          </tr>
-        `;
-        return;
-      }
-
-      const countriesTracked = new Set(data.map(row => row.country_slug)).size;
-      const casinosTracked = new Set(data.map(row => row.casino)).size;
-
-      document.getElementById("countryCount").textContent = countriesTracked;
-      document.getElementById("casinoCount").textContent = casinosTracked;
-
-      table.innerHTML = data.map(row => {
-        const countriesMap = new Map();
-
-data.forEach(row => {
-  if (!countriesMap.has(row.country_slug)) {
-    countriesMap.set(row.country_slug, {
-      country: row.country,
-      country_slug: row.country_slug,
-      provider_slug: row.provider_slug,
-      casinos: [],
-      availabilityValues: []
-    });
+  if (error) {
+    console.error(error);
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">Unable to load availability data.</td>
+      </tr>
+    `;
+    return;
   }
 
-  const countryData = countriesMap.get(row.country_slug);
-  countryData.casinos.push(row.casino);
-  countryData.availabilityValues.push(row.available);
-});
+  if (!data || data.length === 0) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">No availability data found.</td>
+      </tr>
+    `;
+    return;
+  }
 
-const countries = Array.from(countriesMap.values());
+  const providerName = data[0].provider;
 
-table.innerHTML = countries.map(row => {
-  const hasAvailable = row.availabilityValues.includes(true);
-  const hasUnavailable = row.availabilityValues.includes(false);
-  const allUnknown = row.availabilityValues.every(value => value === null);
+  document.getElementById("pageTitle").textContent =
+    `${providerName} Availability`;
 
-  const availability =
-    hasAvailable
-      ? "Available"
-      : hasUnavailable
-        ? "Not available"
-        : "Unknown";
+  document.getElementById("pageSubtitle").textContent =
+    `Check where ${providerName} is available across tracked countries and casinos.`;
 
-  const statusClass =
-    hasAvailable
-      ? "available"
-      : hasUnavailable
-        ? "unavailable"
-        : "unknown";
+  const countriesTracked = new Set(data.map(row => row.country_slug)).size;
+  const casinosTracked = new Set(data.map(row => row.casino)).size;
 
-  return `
-    <tr>
-      <td>
-        <a href="/country/${row.country_slug}/">
-          <span class="flag">${getFlag(row.country_slug)}</span>${row.country}
-        </a>
-      </td>
+  document.getElementById("countryCount").textContent = countriesTracked;
+  document.getElementById("casinoCount").textContent = casinosTracked;
 
-      <td>${row.casinos.length} casinos</td>
+  const countriesMap = new Map();
 
-      <td>
-        <span class="status-badge ${statusClass}">${availability}</span>
-      </td>
-
-      <td>
-        <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
-          View details
-        </a>
-      </td>
-    </tr>
-  `;
-}).join("");
+  data.forEach(row => {
+    if (!countriesMap.has(row.country_slug)) {
+      countriesMap.set(row.country_slug, {
+        country: row.country,
+        country_slug: row.country_slug,
+        provider_slug: row.provider_slug,
+        casinos: [],
+        availabilityValues: []
+      });
     }
 
+    const countryData = countriesMap.get(row.country_slug);
+    countryData.casinos.push(row.casino);
+    countryData.availabilityValues.push(row.available);
+  });
+
+  const countries = Array.from(countriesMap.values());
+
+  table.innerHTML = countries.map(row => {
+    const hasAvailable = row.availabilityValues.includes(true);
+    const hasUnavailable = row.availabilityValues.includes(false);
+
+    const availability =
+      hasAvailable
+        ? "Available"
+        : hasUnavailable
+          ? "Not available"
+          : "Unknown";
+
+    const statusClass =
+      hasAvailable
+        ? "available"
+        : hasUnavailable
+          ? "unavailable"
+          : "unknown";
+
+    return `
+      <tr>
+        <td>
+          <a href="/country/${row.country_slug}/">
+            <span class="flag">${getFlag(row.country_slug)}</span>${row.country}
+          </a>
+        </td>
+
+        <td>${row.casinos.length} casinos</td>
+
+        <td>
+          <span class="status-badge ${statusClass}">${availability}</span>
+        </td>
+
+        <td>
+          <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
+            View details
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
     loadProviderData();
   </script>
   <script src="/assets/nav.js"></script>
