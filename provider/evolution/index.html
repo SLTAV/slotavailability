@@ -39,39 +39,37 @@
   </div>
 
   <div class="stats">
-      <div class="stat-card">
-        <span>Provider</span>
-        <strong>Evolution</strong>
-      </div>
+  <div class="stat-card">
+    <span>Provider</span>
+    <strong>Nom du provider</strong>
+  </div>
 
-      <div class="stat-card">
-        <span>Casino tracked</span>
-        <strong>Stake</strong>
-      </div>
+  <div class="stat-card">
+    <span>Casinos tracked</span>
+    <strong id="casinoCount">Loading...</strong>
+  </div>
 
-      <div class="stat-card">
-        <span>Countries tracked</span>
-        <strong id="countryCount">Loading...</strong>
-      </div>
-    </div>
+  <div class="stat-card">
+    <span>Countries tracked</span>
+    <strong id="countryCount">Loading...</strong>
+  </div>
+</div>
 
     <div class="table-card">
       <table>
         <thead>
-          <tr>
-            <th>Country</th>
-            <th>Casino</th>
-            <th>Availability</th>
-            <th>Last checked</th>
-            <th>Source</th>
-            <th>Details</th>
-          </tr>
-        </thead>
+  <tr>
+    <th>Country</th>
+    <th>Casinos tracked</th>
+    <th>Availability</th>
+    <th>Details</th>
+  </tr>
+</thead>
         <tbody id="availabilityTable">
-          <tr>
-            <td colspan="6">Loading availability data...</td>
-          </tr>
-        </tbody>
+  <tr>
+    <td colspan="4">Loading availability data...</td>
+  </tr>
+</tbody>
       </table>
     </div>
   </main>
@@ -106,59 +104,108 @@
 }
 
     async function loadProviderData() {
-      const { data, error } = await supabaseClient
-        .from("provider_availability")
-        .select("*")
-        .eq("provider_slug", "evolution")
-        .order("country", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("provider_availability")
+    .select("*")
+    .eq("provider_slug", "evolution")
+    .order("country", { ascending: true });
 
-      const table = document.getElementById("availabilityTable");
-      const countryCount = document.getElementById("countryCount");
+  const table = document.getElementById("availabilityTable");
 
-      if (error) {
-        console.error(error);
-        table.innerHTML = `
-          <tr>
-            <td colspan="6">Unable to load availability data.</td>
-          </tr>
-        `;
-        return;
-      }
+  if (error) {
+    console.error(error);
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">Unable to load availability data.</td>
+      </tr>
+    `;
+    return;
+  }
 
-      const countriesTracked = new Set(data.map(row => row.country_slug)).size;
-document.getElementById("countryCount").textContent = countriesTracked;
+  if (!data || data.length === 0) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">No availability data found.</td>
+      </tr>
+    `;
+    return;
+  }
 
-      table.innerHTML = data.map(row => {
-        const availability =
-          row.available === null
-            ? "Unknown"
-            : row.available
-              ? "Available"
-              : "Not available";
+  const providerName = data[0].provider;
 
-        const statusClass =
-          row.available === null
-            ? "unknown"
-            : row.available
-              ? "available"
-              : "unavailable";
+  document.getElementById("pageTitle").textContent =
+    `${providerName} Availability`;
 
-        return `
-          <tr>
-  <td>
-    <a href="/country/${row.country_slug}/"><span class="flag">${getFlag(row.country_slug)}</span>${row.country}</a>
-  </td>
-  <td>${row.casino}</td>
-  <td><span class="status-badge ${statusClass}">${availability}</span></td>
-  <td>${row.last_checked}</td>
-  <td>${row.source || "Manual"}</td>
-  <td>
-  <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">View details</a>
-  </td>
-</tr>
-        `;
-      }).join("");
+  document.getElementById("pageSubtitle").textContent =
+    `Check where ${providerName} is available across tracked countries and casinos.`;
+
+  const countriesTracked = new Set(data.map(row => row.country_slug)).size;
+  const casinosTracked = new Set(data.map(row => row.casino)).size;
+
+  document.getElementById("countryCount").textContent = countriesTracked;
+  document.getElementById("casinoCount").textContent = casinosTracked;
+
+  const countriesMap = new Map();
+
+  data.forEach(row => {
+    if (!countriesMap.has(row.country_slug)) {
+      countriesMap.set(row.country_slug, {
+        country: row.country,
+        country_slug: row.country_slug,
+        provider_slug: row.provider_slug,
+        casinos: [],
+        availabilityValues: []
+      });
     }
+
+    const countryData = countriesMap.get(row.country_slug);
+    countryData.casinos.push(row.casino);
+    countryData.availabilityValues.push(row.available);
+  });
+
+  const countries = Array.from(countriesMap.values());
+
+  table.innerHTML = countries.map(row => {
+    const hasAvailable = row.availabilityValues.includes(true);
+    const hasUnavailable = row.availabilityValues.includes(false);
+
+    const availability =
+      hasAvailable
+        ? "Available"
+        : hasUnavailable
+          ? "Not available"
+          : "Unknown";
+
+    const statusClass =
+      hasAvailable
+        ? "available"
+        : hasUnavailable
+          ? "unavailable"
+          : "unknown";
+
+    return `
+      <tr>
+        <td>
+          <a href="/country/${row.country_slug}/">
+            <span class="flag">${getFlag(row.country_slug)}</span>${row.country}
+          </a>
+        </td>
+
+        <td>${row.casinos.length} casinos</td>
+
+        <td>
+          <span class="status-badge ${statusClass}">${availability}</span>
+        </td>
+
+        <td>
+          <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
+            View details
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
 
     loadProviderData();
   </script>
