@@ -45,14 +45,14 @@
       </div>
 
       <div class="stat-card">
-        <span>Casino tracked</span>
-        <strong id="casinoCount">Loading...</strong>
-      </div>
+  <span>Casinos tracked</span>
+  <strong id="casinoCount">Loading...</strong>
+</div>
 
       <div class="stat-card">
-        <span>Countries tracked</span>
-        <strong id="countryCount">Loading...</strong>
-      </div>
+  <span>Countries tracked</span>
+  <strong id="countryCount">Loading...</strong>
+</div>
     </div>
 
     <div class="table-card">
@@ -67,7 +67,7 @@
         </thead>
         <tbody id="availabilityTable">
           <tr>
-            <td colspan="6">Loading availability data...</td>
+            <td colspan="4">Loading availability data...</td>
           </tr>
         </tbody>
       </table>
@@ -125,7 +125,7 @@
 
       const countriesTracked = new Set(data.map(row => row.country_slug)).size;
       const casinosTracked = new Set(data.map(row => row.casino)).size;
-      
+
       document.getElementById("countryCount").textContent = countriesTracked;
       document.getElementById("casinoCount").textContent = casinosTracked;
 
