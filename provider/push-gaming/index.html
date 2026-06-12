@@ -125,7 +125,8 @@
         return;
       }
 
-      countryCount.textContent = data.length;
+      const countriesTracked = new Set(data.map(row => row.country_slug)).size;
+document.getElementById("countryCount").textContent = countriesTracked;
 
       table.innerHTML = data.map(row => {
         const availability =
