@@ -42,22 +42,22 @@
   </p>
 </div>
 
-    <div class="about-stats">
-      <div class="card">
-        <span>Providers tracked</span>
-        <strong>Stake</strong>
-      </div>
-
-      <div class="card">
-        <span>Countries tracked</span>
-        <strong>Stake</strong>
-      </div>
-
-      <div class="card">
-        <span>Casino tracked</span>
-        <strong>Stake</strong>
-      </div>
+      <div class="about-stats">
+    <div class="stat-card">
+      <span>Providers tracked</span>
+      <strong id="providerCount">Loading...</strong>
     </div>
+
+    <div class="stat-card">
+      <span>Countries tracked</span>
+      <strong id="countryCount">Loading...</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Casinos tracked</span>
+      <strong id="casinoCount">Loading...</strong>
+    </div>
+  </div>
 
     <h2>What SlotAvailability tracks</h2>
 
@@ -106,8 +106,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+  const SUPABASE_URL = "TON_URL_SUPABASE";
+  const SUPABASE_KEY = "TA_CLE_SUPABASE";
 
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
