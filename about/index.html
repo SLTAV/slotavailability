@@ -45,12 +45,12 @@
     <div class="about-stats">
       <div class="card">
         <span>Providers tracked</span>
-        <strong>10</strong>
+        <strong>Stake</strong>
       </div>
 
       <div class="card">
         <span>Countries tracked</span>
-        <strong>10</strong>
+        <strong>Stake</strong>
       </div>
 
       <div class="card">
@@ -103,6 +103,40 @@
     <a href="/help-us/">Help Us</a>
     <a href="mailto:contact@slotavailability.com">Contact</a>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadAboutStats() {
+    const { data, error } = await supabaseClient
+      .from("provider_availability")
+      .select("provider_slug, country_slug, casino");
+
+    if (error) {
+      console.error(error);
+
+      document.getElementById("providerCount").textContent = "—";
+      document.getElementById("countryCount").textContent = "—";
+      document.getElementById("casinoCount").textContent = "—";
+
+      return;
+    }
+
+    const providers = new Set(data.map(row => row.provider_slug));
+    const countries = new Set(data.map(row => row.country_slug));
+    const casinos = new Set(data.map(row => row.casino));
+
+    document.getElementById("providerCount").textContent = providers.size;
+    document.getElementById("countryCount").textContent = countries.size;
+    document.getElementById("casinoCount").textContent = casinos.size;
+  }
+
+  loadAboutStats();
+  </script>
   <script src="/assets/nav.js"></script>
 </body>
 </html>
