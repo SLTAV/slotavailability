@@ -1442,3 +1442,40 @@ th {
   min-width: 92px;
   justify-content: center;
 }
+
+/* Availability page - casino cards layout */
+#countryResult {
+  max-width: 900px;
+  margin: 30px auto 0;
+}
+
+#countryResult .detail-card {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#countryResult .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+#countryResult .detail-item {
+  min-height: 86px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  #countryResult .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  #countryResult .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
