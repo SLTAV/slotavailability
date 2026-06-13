@@ -1426,3 +1426,19 @@ th {
     overflow-x: auto;
   }
 }
+
+/* Availability page spacing polish */
+#countryResult {
+  max-width: 760px;
+  margin: 30px auto 0;
+}
+
+#countryResult .detail-card {
+  margin-top: 0;
+}
+
+#countryResult .detail-item strong .status-badge {
+  width: fit-content;
+  min-width: 92px;
+  justify-content: center;
+}
