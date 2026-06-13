@@ -1784,3 +1784,31 @@ th {
   padding-left: 18px;
   padding-right: 18px;
 }
+
+/* Homepage intro content */
+.intro-section {
+  max-width: 860px;
+  margin: 48px auto 0;
+  padding: 28px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(56, 189, 248, 0.045), rgba(255, 255, 255, 0.014)),
+    var(--bg-card);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.intro-section h2 {
+  margin: 0 0 14px;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.intro-section p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.intro-section p + p {
+  margin-top: 14px;
+}
