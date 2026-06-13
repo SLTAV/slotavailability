@@ -60,15 +60,16 @@
       <table>
         <thead>
   <tr>
-    <th>Provider</th>
-    <th>Countries tracked</th>
-    <th>Provider page</th>
-  </tr>
+  <th>Provider</th>
+  <th>Countries tracked</th>
+  <th>Availability</th>
+  <th>Provider page</th>
+</tr>
 </thead>
 
 <tbody id="casinoTable">
   <tr>
-    <td colspan="3">Loading casino data...</td>
+    <td colspan="4">Loading casino data...</td>
   </tr>
 </tbody>
       </table>
@@ -127,16 +128,19 @@
   const providersMap = new Map();
 
   data.forEach(row => {
-    if (!providersMap.has(row.provider_slug)) {
-      providersMap.set(row.provider_slug, {
-        provider: row.provider,
-        provider_slug: row.provider_slug,
-        countries: new Set()
-      });
-    }
+  if (!providersMap.has(row.provider_slug)) {
+    providersMap.set(row.provider_slug, {
+      provider: row.provider,
+      provider_slug: row.provider_slug,
+      countries: new Set(),
+      availabilityValues: []
+    });
+  }
 
-    providersMap.get(row.provider_slug).countries.add(row.country_slug);
-  });
+  const providerData = providersMap.get(row.provider_slug);
+  providerData.countries.add(row.country_slug);
+  providerData.availabilityValues.push(row.available);
+});
 
   const providers = Array.from(providersMap.values());
   const countries = new Set(data.map(row => row.country_slug));
@@ -148,7 +152,25 @@
   document.title =
     `${casinoName} Slot Provider Availability | SlotAvailability`;
 
-  table.innerHTML = providers.map(row => `
+  table.innerHTML = providers.map(row => {
+  const hasAvailable = row.availabilityValues.includes(true);
+  const hasUnavailable = row.availabilityValues.includes(false);
+
+  const availability =
+    hasAvailable
+      ? "Available"
+      : hasUnavailable
+        ? "Not available"
+        : "Unknown";
+
+  const statusClass =
+    hasAvailable
+      ? "available"
+      : hasUnavailable
+        ? "unavailable"
+        : "unknown";
+
+  return `
     <tr>
       <td>
         <a href="/provider/${row.provider_slug}/">
@@ -156,8 +178,10 @@
         </a>
       </td>
 
+      <td>${row.countries.size} countries</td>
+
       <td>
-        <span class="status-badge unknown">${row.countries.size}</span>
+        <span class="status-badge ${statusClass}">${availability}</span>
       </td>
 
       <td>
@@ -166,8 +190,8 @@
         </a>
       </td>
     </tr>
-  `).join("");
-}
+  `;
+}).join("");
 
   loadCasinoData();
 </script>
