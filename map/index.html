@@ -13,6 +13,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/style.css">
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
   
 </head>
 
@@ -28,56 +32,33 @@
     </nav>
   </header>
 
-  <main class="page">
-    <div class="page-header">
-  <span class="badge">World Availability Map</span>
+  <main class="page map-page">
+  <div class="page-header">
+    <span class="badge">World Map</span>
 
-  <h1>World Slot Provider Availability Map</h1>
+    <h1>Slot Provider Availability Map</h1>
 
-  <p class="subtitle">
-    Select a slot provider and explore its availability across tracked countries.
-    This first version uses a country table; a visual world map will be added later.
-  </p>
-</div>
+    <p class="subtitle">
+      Click a tracked country to view slot provider availability across supported casinos.
+    </p>
+  </div>
 
-    <div class="control-card">
-      <div class="control-row">
-        <select id="providerSelect">
-          <option value="hacksaw-gaming">Hacksaw Gaming</option>
-          <option value="pragmatic-play">Pragmatic Play</option>
-          <option value="nolimit-city">Nolimit City</option>
-          <option value="relax-gaming">Relax Gaming</option>
-          <option value="push-gaming">Push Gaming</option>
-          <option value="play-n-go">Play'n GO</option>
-          <option value="evolution">Evolution</option>
-          <option value="bgaming">BGaming</option>
-          <option value="elk-studios">ELK Studios</option>
-          <option value="thunderkick">Thunderkick</option>
-        </select>
-
-        <button id="loadButton">Update Map</button>
-      </div>
+  <section class="map-layout">
+    <div class="map-card">
+      <div id="worldMap"></div>
     </div>
 
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th>Country</th>
-            <th>Casino</th>
-            <th>Availability</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        
-        <tbody id="mapTable">
-          <tr>
-            <td colspan="4">Loading map data...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
+    <aside class="map-panel" id="mapPanel">
+      <span class="badge">Country details</span>
+
+      <h2>Select a country</h2>
+
+      <p>
+        Click on a highlighted country to view tracked providers and casino availability.
+      </p>
+    </aside>
+  </section>
+</main>
 
   <footer>
     © 2026 SlotAvailability. Independent availability database.
@@ -86,105 +67,252 @@
     <a href="/help-us/">Help Us</a>
     <a href="mailto:contact@slotavailability.com">Contact</a>
   </footer>
-
+  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+  const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    function getFlag(countrySlug) {
-  const flags = {
-    "canada": "🇨🇦",
-    "brazil": "🇧🇷",
-    "australia": "🇦🇺",
-    "new-zealand": "🇳🇿",
-    "germany": "🇩🇪",
-    "switzerland": "🇨🇭",
-    "netherlands": "🇳🇱",
-    "sweden": "🇸🇪",
-    "norway": "🇳🇴",
-    "finland": "🇫🇮"
+  const trackedCountries = {
+    "Canada": "canada",
+    "Brazil": "brazil",
+    "Australia": "australia",
+    "New Zealand": "new-zealand",
+    "Germany": "germany",
+    "Switzerland": "switzerland",
+    "Netherlands": "netherlands",
+    "Sweden": "sweden",
+    "Norway": "norway",
+    "Finland": "finland"
   };
 
-  return flags[countrySlug] || "🌍";
-}
+  function getFlag(countrySlug) {
+    const flags = {
+      "canada": "🇨🇦",
+      "brazil": "🇧🇷",
+      "australia": "🇦🇺",
+      "new-zealand": "🇳🇿",
+      "germany": "🇩🇪",
+      "switzerland": "🇨🇭",
+      "netherlands": "🇳🇱",
+      "sweden": "🇸🇪",
+      "norway": "🇳🇴",
+      "finland": "🇫🇮"
+    };
 
-    const providerSelect = document.getElementById("providerSelect");
-    const loadButton = document.getElementById("loadButton");
-    const mapTable = document.getElementById("mapTable");
+    return flags[countrySlug] || "";
+  }
 
-    async function loadMapData() {
-      const providerSlug = providerSelect.value;
+  const map = L.map("worldMap", {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: false
+  }).setView([25, 10], 2);
 
-      mapTable.innerHTML = `
-        <tr>
-          <td colspan="4">Loading map data...</td>
-        </tr>
+  let availabilityByCountry = {};
+  let geoJsonLayer;
+
+  async function loadMapData() {
+    const { data, error } = await supabaseClient
+      .from("provider_availability")
+      .select("*");
+
+    if (error) {
+      console.error(error);
+      document.getElementById("mapPanel").innerHTML = `
+        <span class="badge">Error</span>
+        <h2>Unable to load map data</h2>
+        <p>Please try again later.</p>
       `;
-
-      const { data, error } = await supabaseClient
-        .from("provider_availability")
-        .select("*")
-        .eq("provider_slug", providerSlug)
-        .order("country", { ascending: true });
-
-      if (error) {
-        console.error(error);
-        mapTable.innerHTML = `
-          <tr>
-            <td colspan="4">Unable to load map data.</td>
-          </tr>
-        `;
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        mapTable.innerHTML = `
-          <tr>
-            <td colspan="4">No data found for this provider.</td>
-          </tr>
-        `;
-        return;
-      }
-
-      mapTable.innerHTML = data.map(row => {
-        const availability =
-          row.available === null
-            ? "Unknown"
-            : row.available
-              ? "Available"
-              : "Not available";
-
-        const statusClass =
-          row.available === null
-            ? "unknown"
-            : row.available
-              ? "available"
-              : "unavailable";
-
-        return `
-          <tr>
-            <td>
-              <a href="/country/${row.country_slug}/"><span class="flag">${getFlag(row.country_slug)}</span>${row.country}</a></td>
-            <td>${row.casino}</td>
-            <td>
-              <span class="status-badge ${statusClass}">${availability}</span>
-            </td>
-            <td>
-              <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">View details</a>
-            </td>
-          </tr>
-        `;
-      }).join("");
+      return;
     }
 
-    loadButton.addEventListener("click", loadMapData);
+    availabilityByCountry = buildCountrySummary(data);
 
-    loadMapData();
-  </script>
+    await loadWorldMap();
+    showDefaultPanel();
+  }
+
+  function buildCountrySummary(rows) {
+    const countries = {};
+
+    rows.forEach(row => {
+      if (!countries[row.country_slug]) {
+        countries[row.country_slug] = {
+          country: row.country,
+          country_slug: row.country_slug,
+          casinos: new Set(),
+          providers: new Map()
+        };
+      }
+
+      const countryData = countries[row.country_slug];
+
+      countryData.casinos.add(row.casino);
+
+      if (!countryData.providers.has(row.provider_slug)) {
+        countryData.providers.set(row.provider_slug, {
+          provider: row.provider,
+          provider_slug: row.provider_slug,
+          availabilityValues: []
+        });
+      }
+
+      countryData.providers
+        .get(row.provider_slug)
+        .availabilityValues.push(row.available);
+    });
+
+    return countries;
+  }
+
+  async function loadWorldMap() {
+    const response = await fetch(
+      "https://cdn.jsdelivr.net/gh/johan/world.geo.json@master/countries.geo.json"
+    );
+
+    const geoJsonData = await response.json();
+
+    geoJsonLayer = L.geoJSON(geoJsonData, {
+      style: function (feature) {
+        const countryName = feature.properties.name;
+        const countrySlug = trackedCountries[countryName];
+        const isTracked = Boolean(countrySlug);
+
+        return {
+          color: isTracked ? "#38bdf8" : "rgba(148, 163, 184, 0.22)",
+          weight: isTracked ? 1.4 : 0.6,
+          fillColor: isTracked ? "#38bdf8" : "#111827",
+          fillOpacity: isTracked ? 0.42 : 0.26
+        };
+      },
+
+      onEachFeature: function (feature, layer) {
+        const countryName = feature.properties.name;
+        const countrySlug = trackedCountries[countryName];
+
+        if (!countrySlug) {
+          return;
+        }
+
+        layer.on("mouseover", function () {
+          layer.setStyle({
+            fillOpacity: 0.68,
+            weight: 2
+          });
+        });
+
+        layer.on("mouseout", function () {
+          geoJsonLayer.resetStyle(layer);
+        });
+
+        layer.on("click", function () {
+          showCountryPanel(countrySlug);
+        });
+      }
+    }).addTo(map);
+
+    map.fitBounds(geoJsonLayer.getBounds(), {
+      padding: [20, 20]
+    });
+  }
+
+  function showDefaultPanel() {
+    document.getElementById("mapPanel").innerHTML = `
+      <span class="badge">Country details</span>
+
+      <h2>Select a country</h2>
+
+      <p>
+        Click on a highlighted country to view tracked providers and casino availability.
+      </p>
+
+      <div class="map-mini-stats">
+        <div>
+          <span>Countries tracked</span>
+          <strong>${Object.keys(availabilityByCountry).length}</strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong>Pre-launch</strong>
+        </div>
+      </div>
+    `;
+  }
+
+  function showCountryPanel(countrySlug) {
+    const countryData = availabilityByCountry[countrySlug];
+
+    if (!countryData) {
+      return;
+    }
+
+    const providers = Array.from(countryData.providers.values());
+
+    const providerCards = providers.map(provider => {
+      const hasAvailable = provider.availabilityValues.includes(true);
+      const hasUnavailable = provider.availabilityValues.includes(false);
+
+      const availability =
+        hasAvailable
+          ? "Available"
+          : hasUnavailable
+            ? "Not available"
+            : "Unknown";
+
+      const statusClass =
+        hasAvailable
+          ? "available"
+          : hasUnavailable
+            ? "unavailable"
+            : "unknown";
+
+      return `
+        <a class="map-provider-row" href="/availability/?provider=${provider.provider_slug}&country=${countryData.country_slug}">
+          <span>${provider.provider}</span>
+          <strong class="status-badge ${statusClass}">${availability}</strong>
+        </a>
+      `;
+    }).join("");
+
+    document.getElementById("mapPanel").innerHTML = `
+      <span class="badge">Country details</span>
+
+      <h2>${getFlag(countryData.country_slug)} ${countryData.country}</h2>
+
+      <p>
+        Provider availability tracked across ${countryData.casinos.size} casinos.
+      </p>
+
+      <div class="map-mini-stats">
+        <div>
+          <span>Providers tracked</span>
+          <strong>${providers.length}</strong>
+        </div>
+
+        <div>
+          <span>Casinos tracked</span>
+          <strong>${countryData.casinos.size}</strong>
+        </div>
+      </div>
+
+      <div class="map-provider-list">
+        ${providerCards}
+      </div>
+
+      <a class="details-link map-country-link" href="/country/${countryData.country_slug}/">
+        View country page
+      </a>
+    `;
+  }
+
+  loadMapData();
+</script>
   <script src="/assets/nav.js"></script>
 </body>
 </html>
