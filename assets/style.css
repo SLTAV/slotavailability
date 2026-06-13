@@ -1785,3 +1785,28 @@ th {
   padding-right: 18px;
 }
 
+/* Equal card sizing for provider/country grids */
+.section .grid {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.section .grid .card {
+  width: 100%;
+  height: 146px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section .grid .card strong {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+}
