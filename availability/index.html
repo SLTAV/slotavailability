@@ -137,8 +137,7 @@
   document.getElementById("countryName").textContent =
     `${getFlag(firstResult.country_slug)} ${firstResult.country}`;
 
-  document.getElementById("casinoName").textContent =
-    `${data.length} casinos tracked`;
+  document.getElementById("casinoName").textContent = data.length;
 
   document.title =
     `${firstResult.provider} Availability in ${firstResult.country} | SlotAvailability`;
