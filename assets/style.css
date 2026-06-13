@@ -1624,3 +1624,43 @@ th {
 .leaflet-control-zoom a:hover {
   background: rgba(56, 189, 248, 0.16) !important;
 }
+
+/* Map resizing polish */
+.map-layout {
+  max-width: 1280px;
+  grid-template-columns: minmax(720px, 1fr) 380px;
+  gap: 24px;
+}
+
+.map-card {
+  min-height: 650px;
+  padding: 18px;
+}
+
+#worldMap {
+  height: 650px;
+}
+
+.map-panel {
+  max-height: 650px;
+  overflow: hidden;
+}
+
+.map-provider-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.map-provider-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.map-provider-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+
+.map-provider-list::-webkit-scrollbar-track {
+  background: transparent;
+}
