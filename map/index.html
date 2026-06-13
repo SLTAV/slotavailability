@@ -221,8 +221,16 @@
     }).addTo(map);
 
     map.fitBounds(geoJsonLayer.getBounds(), {
-      padding: [6, 6]
-    });
+  padding: [8, 8]
+});
+
+setTimeout(() => {
+  map.invalidateSize();
+
+  map.fitBounds(geoJsonLayer.getBounds(), {
+    padding: [8, 8]
+  });
+}, 150);
   }
 
   function showDefaultPanel() {
