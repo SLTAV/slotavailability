@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Hacksaw Gaming Availability - SlotAvailability</title>
-  <meta name="description" content="Check Hacksaw Gaming availability by country and casino. See where Hacksaw Gaming slots are available on Stake." />
+  <title>Slot Provider Availability by Country & Casino | SlotAvailability</title>
+  <meta name="description" content="Check slot provider availability by country and casino. Compare whether a provider is available across tracked casinos in supported countries.">
   <meta name="robots" content="noindex, nofollow">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,10 +32,10 @@
     <div class="page-header">
   <span class="badge">Provider Availability</span>
 
-  <h1 id="pageTitle">Loading availability...</h1>
+  <h1 id="pageTitle">Provider Availability</h1>
 
   <p class="subtitle" id="pageSubtitle">
-    Loading provider availability data...
+    Compare slot provider availability across tracked casinos.
   </p>
 </div>
 
@@ -128,10 +128,10 @@
   const firstResult = data[0];
 
   document.getElementById("pageTitle").textContent =
-    `${firstResult.provider} Availability in ${getFlag(firstResult.country_slug)} ${firstResult.country}`;
+  `${firstResult.provider} Availability in ${getFlag(firstResult.country_slug)} ${firstResult.country}`;
 
-  document.getElementById("pageSubtitle").textContent =
-    `Check whether ${firstResult.provider} is available in ${getFlag(firstResult.country_slug)} ${firstResult.country} across tracked casinos.`;
+document.getElementById("pageSubtitle").textContent =
+  `Compare ${firstResult.provider} availability in ${getFlag(firstResult.country_slug)} ${firstResult.country} across ${data.length} tracked casinos.`;
 
   document.getElementById("providerName").textContent = firstResult.provider;
 
