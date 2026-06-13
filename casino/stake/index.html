@@ -108,7 +108,7 @@
 
     table.innerHTML = `
       <tr>
-        <td colspan="3">Unable to load casino data.</td>
+        <td colspan="4">Unable to load casino data.</td>
       </tr>
     `;
 
@@ -118,7 +118,7 @@
   if (!data || data.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="3">No casino data found.</td>
+        <td colspan="4">No casino data found.</td>
       </tr>
     `;
 
@@ -192,8 +192,9 @@
     </tr>
   `;
 }).join("");
+}
 
-  loadCasinoData();
+loadCasinoData();
 </script>
   <script src="/assets/nav.js"></script>
 </body>
