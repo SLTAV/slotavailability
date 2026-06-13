@@ -1739,3 +1739,35 @@ th {
   overflow-y: auto;
   padding-right: 4px;
 }
+
+/* Map panel scroll fix */
+.map-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.map-panel .badge,
+.map-panel h2,
+.map-panel p,
+.map-mini-stats,
+.map-country-link {
+  flex-shrink: 0;
+}
+
+.map-provider-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none !important;
+  overflow-y: auto;
+  padding-right: 6px;
+  padding-bottom: 16px;
+}
+
+.map-provider-row:last-child {
+  margin-bottom: 10px;
+}
+
+.map-country-link {
+  margin-top: 16px;
+}
