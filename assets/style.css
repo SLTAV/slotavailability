@@ -1895,3 +1895,31 @@ main.page .grid .card strong,
   color: var(--text-soft);
   line-height: 1.7;
 }
+
+/* Header click reliability fix */
+header {
+  position: relative;
+  z-index: 9999;
+  isolation: isolate;
+}
+
+header nav {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+header nav a {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+header::before,
+header::after,
+header nav::before,
+header nav::after,
+header nav a::before,
+header nav a::after {
+  pointer-events: none;
+}
