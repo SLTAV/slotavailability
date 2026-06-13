@@ -1664,3 +1664,31 @@ th {
 .map-provider-list::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* Map final sizing polish */
+.map-layout {
+  max-width: 1180px;
+  margin: 30px auto 0;
+  grid-template-columns: minmax(760px, 1fr) 360px;
+  gap: 22px;
+}
+
+.map-card {
+  min-height: 590px;
+  padding: 14px;
+}
+
+#worldMap {
+  height: 590px;
+}
+
+.map-panel {
+  max-height: 590px;
+  overflow: hidden;
+}
+
+.map-provider-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
