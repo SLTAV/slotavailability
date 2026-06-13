@@ -1810,3 +1810,36 @@ th {
   display: flex;
   align-items: center;
 }
+
+/* Force equal card sizing everywhere */
+main.page .grid,
+.grid {
+  width: 100%;
+  max-width: 920px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, 160px) !important;
+  gap: 18px !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+main.page .grid .card,
+.grid .card {
+  width: 160px !important;
+  height: 146px !important;
+  min-height: 146px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+main.page .grid .card strong,
+.grid .card strong {
+  min-height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1.25 !important;
+}
