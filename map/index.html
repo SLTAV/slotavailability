@@ -177,6 +177,10 @@
 
     const geoJsonData = await response.json();
 
+    geoJsonData.features = geoJsonData.features.filter(feature =>
+      feature.properties.name !== "Antarctica"
+    );
+
     geoJsonLayer = L.geoJSON(geoJsonData, {
       style: function (feature) {
         const countryName = feature.properties.name;
@@ -217,7 +221,7 @@
     }).addTo(map);
 
     map.fitBounds(geoJsonLayer.getBounds(), {
-      padding: [20, 20]
+      padding: [6, 6]
     });
   }
 
