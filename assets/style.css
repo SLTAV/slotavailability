@@ -1843,3 +1843,9 @@ main.page .grid .card strong,
   align-items: center !important;
   line-height: 1.25 !important;
 }
+
+/* Badge text consistency */
+.page-header .badge {
+  font-size: 14px;
+  font-weight: 600;
+}
