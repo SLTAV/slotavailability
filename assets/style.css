@@ -1849,3 +1849,49 @@ main.page .grid .card strong,
   font-size: 14px;
   font-weight: 600;
 }
+
+/* About warning box */
+.about-warning {
+  max-width: 760px;
+  margin: 26px auto 44px;
+  padding: 24px 26px;
+  border-radius: 22px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  background:
+    linear-gradient(180deg, rgba(56, 189, 248, 0.08), rgba(255, 255, 255, 0.018)),
+    var(--bg-card);
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.06),
+    0 0 28px rgba(56, 189, 248, 0.055);
+}
+
+.about-warning-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.38);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.about-warning strong {
+  display: block;
+  color: var(--text-main);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.about-warning p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
