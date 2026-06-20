@@ -39,54 +39,53 @@
 
       <div class="search-card">
       <div class="search-row">
-      <select
-  id="providerSelect"
-  name="slot-provider"
-  autocomplete="off"
-  data-lpignore="true"
-  data-1p-ignore="true"
-  data-bwignore="true"
-  aria-label="Select provider"
-  >
-  <option value="">Select Provider</option>
-  <option value="hacksaw-gaming">Hacksaw Gaming</option>
-  <option value="pragmatic-play">Pragmatic Play</option>
-  <option value="nolimit-city">Nolimit City</option>
-  <option value="relax-gaming">Relax Gaming</option>
-  <option value="push-gaming">Push Gaming</option>
-  <option value="play-n-go">Play'n GO</option>
-  <option value="evolution">Evolution</option>
-  <option value="bgaming">BGaming</option>
-  <option value="elk-studios">ELK Studios</option>
-  <option value="thunderkick">Thunderkick</option>
-</select>
+      <input type="hidden" id="providerSelect" value="">
+<input type="hidden" id="countrySelect" value="">
 
-<select
-  id="countrySelect"
-  name="slot-country"
-  autocomplete="off"
-  data-lpignore="true"
-  data-1p-ignore="true"
-  data-bwignore="true"
-  aria-label="Select country"
->
-  <option value="">Select Country</option>
-  <option value="canada">Canada</option>
-  <option value="brazil">Brazil</option>
-  <option value="australia">Australia</option>
-  <option value="new-zealand">New Zealand</option>
-  <option value="germany">Germany</option>
-  <option value="switzerland">Switzerland</option>
-  <option value="netherlands">Netherlands</option>
-  <option value="sweden">Sweden</option>
-  <option value="norway">Norway</option>
-  <option value="finland">Finland</option>
-  <option value="united-kingdom">United Kingdom</option>
-  <option value="denmark">Denmark</option>
-  <option value="belgium">Belgium</option>
-  <option value="portugal">Portugal</option>
-  <option value="austria">Austria</option>
-</select>
+<div class="custom-select" data-input-id="providerSelect">
+  <button type="button" class="custom-select-trigger" aria-expanded="false">
+    <span>Select Provider</span>
+    <span class="custom-select-arrow">⌄</span>
+  </button>
+
+  <div class="custom-select-menu">
+    <button type="button" class="custom-select-option" data-value="hacksaw-gaming">Hacksaw Gaming</button>
+    <button type="button" class="custom-select-option" data-value="pragmatic-play">Pragmatic Play</button>
+    <button type="button" class="custom-select-option" data-value="nolimit-city">Nolimit City</button>
+    <button type="button" class="custom-select-option" data-value="relax-gaming">Relax Gaming</button>
+    <button type="button" class="custom-select-option" data-value="push-gaming">Push Gaming</button>
+    <button type="button" class="custom-select-option" data-value="play-n-go">Play'n GO</button>
+    <button type="button" class="custom-select-option" data-value="evolution">Evolution</button>
+    <button type="button" class="custom-select-option" data-value="bgaming">BGaming</button>
+    <button type="button" class="custom-select-option" data-value="elk-studios">ELK Studios</button>
+    <button type="button" class="custom-select-option" data-value="thunderkick">Thunderkick</button>
+  </div>
+</div>
+
+<div class="custom-select" data-input-id="countrySelect">
+  <button type="button" class="custom-select-trigger" aria-expanded="false">
+    <span>Select Country</span>
+    <span class="custom-select-arrow">⌄</span>
+  </button>
+
+  <div class="custom-select-menu">
+    <button type="button" class="custom-select-option" data-value="canada">Canada</button>
+    <button type="button" class="custom-select-option" data-value="brazil">Brazil</button>
+    <button type="button" class="custom-select-option" data-value="australia">Australia</button>
+    <button type="button" class="custom-select-option" data-value="new-zealand">New Zealand</button>
+    <button type="button" class="custom-select-option" data-value="germany">Germany</button>
+    <button type="button" class="custom-select-option" data-value="switzerland">Switzerland</button>
+    <button type="button" class="custom-select-option" data-value="netherlands">Netherlands</button>
+    <button type="button" class="custom-select-option" data-value="sweden">Sweden</button>
+    <button type="button" class="custom-select-option" data-value="norway">Norway</button>
+    <button type="button" class="custom-select-option" data-value="finland">Finland</button>
+    <button type="button" class="custom-select-option" data-value="united-kingdom">United Kingdom</button>
+    <button type="button" class="custom-select-option" data-value="denmark">Denmark</button>
+    <button type="button" class="custom-select-option" data-value="belgium">Belgium</button>
+    <button type="button" class="custom-select-option" data-value="portugal">Portugal</button>
+    <button type="button" class="custom-select-option" data-value="austria">Austria</button>
+  </div>
+</div>
 
     <button id="searchButton">Search</button>
     </div>
@@ -456,7 +455,58 @@ console.log("Supabase error:", error);
 }
 
 updateProviderCountryCounts();
+  function closeCustomSelects(except = null) {
+  document.querySelectorAll(".custom-select.open").forEach(select => {
+    if (select !== except) {
+      select.classList.remove("open");
+      select
+        .querySelector(".custom-select-trigger")
+        .setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+document.querySelectorAll(".custom-select").forEach(select => {
+  const input = document.getElementById(select.dataset.inputId);
+  const trigger = select.querySelector(".custom-select-trigger");
+  const label = trigger.querySelector("span:first-child");
+  const options = select.querySelectorAll(".custom-select-option");
+
+  trigger.addEventListener("click", () => {
+    const shouldOpen = !select.classList.contains("open");
+
+    closeCustomSelects(select);
+
+    select.classList.toggle("open", shouldOpen);
+    trigger.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+  });
+
+  options.forEach(option => {
+    option.addEventListener("click", () => {
+      input.value = option.dataset.value;
+      label.textContent = option.textContent;
+
+      options.forEach(item => item.classList.remove("selected"));
+      option.classList.add("selected");
+
+      select.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+
+document.addEventListener("click", event => {
+  if (!event.target.closest(".custom-select")) {
+    closeCustomSelects();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeCustomSelects();
+  }
+});
 </script>
-  <script src="/assets/nav.js"></script>
+    <script src="/assets/nav.js"></script>
 </body>
 </html>
