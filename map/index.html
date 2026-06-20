@@ -244,7 +244,7 @@ function getSelectedProviderStatus(countrySlug) {
     };
   }
 
-  function getProviderMapSummary(providerSlug) {
+function getProviderMapSummary(providerSlug) {
   const summary = {
     provider: "",
     available: 0,
@@ -276,18 +276,6 @@ function getSelectedProviderStatus(countrySlug) {
   });
 
   return summary;
-}
-
-  const providerData = countryData.providers.get(selectedProviderSlug);
-
-  if (!providerData) {
-    return {
-      label: "Unknown",
-      statusClass: "unknown"
-    };
-  }
-
-  return getAvailabilityMeta(providerData.availabilityValues);
 }
 
 function getMapCountryStyle(feature) {
