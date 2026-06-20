@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Slot Providers in Denmark - SlotAvailability</title>
+  <meta name="description" content="Check which slot providers are available in Canada on Stake. Browse Hacksaw Gaming, Pragmatic Play, Nolimit City and more." />
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  
+</head>
+
+<body>
+  <header>
+  <a class="logo" href="/">Slot<span>Availability</span></a>
+  <nav>
+    <a href="/providers/">Providers</a>
+    <a href="/countries/">Countries</a>
+    <a href="/casinos/">Casino</a>
+    <a href="/map/">World Map</a>
+    <a href="/help-us/">Help Us</a>
+  </nav>
+</header>
+
+  <main class="page">
+  <div class="page-header">
+    <span class="badge">Country Availability</span>
+
+    <h1 id="pageTitle">Slot Providers in Denmark</h1>
+
+    <p class="subtitle" id="pageSubtitle">
+      Check which slot providers are available in Denmark on Stake.
+    </p>
+  </div>
+
+  <div class="stats">
+  <div class="stat-card">
+    <span>Country</span>
+    <strong id="countryName">Loading...</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Casinos tracked</span>
+    <strong id="casinoCount">Loading...</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Providers tracked</span>
+    <strong id="providerCount">Loading...</strong>
+  </div>
+</div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+  <tr>
+    <th>Provider</th>
+    <th>Casinos tracked</th>
+    <th>Availability</th>
+    <th>Details</th>
+  </tr>
+</thead>
+        <tbody id="availabilityTable">
+  <tr>
+    <td colspan="4">Loading availability data...</td>
+  </tr>
+</tbody>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SlotAvailability. Independent availability database.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://hqqwkjietqcmewzsaugp.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SIDGigPpsbkQgtbo0u2uOg_w3w1slmH";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function getFlag(countrySlug) {
+  const flags = {
+    "canada": "🇨🇦",
+    "brazil": "🇧🇷",
+    "australia": "🇦🇺",
+    "new-zealand": "🇳🇿",
+    "germany": "🇩🇪",
+    "switzerland": "🇨🇭",
+    "netherlands": "🇳🇱",
+    "sweden": "🇸🇪",
+    "norway": "🇳🇴",
+    "finland": "🇫🇮",
+    "united-kingdom": "🇬🇧",
+    "denmark": "🇩🇰"
+  };
+
+  return flags[countrySlug] || "🌍";
+}
+
+    async function loadCountryData() {
+  const { data, error } = await supabaseClient
+    .from("provider_availability")
+    .select("*")
+    .eq("country_slug", "denmark")
+    .order("provider", { ascending: true });
+
+  const table = document.getElementById("availabilityTable");
+
+  if (error) {
+    console.error(error);
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">Unable to load availability data.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="4">No availability data found.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  const countryName = data[0].country;
+  const countrySlug = data[0].country_slug;
+
+  document.getElementById("pageTitle").textContent =
+    `${getFlag(countrySlug)} Slot Providers in ${countryName}`;
+
+  document.getElementById("pageSubtitle").textContent =
+    `Check which slot providers are available in ${getFlag(countrySlug)} ${countryName} across tracked casinos.`;
+
+  document.getElementById("countryName").textContent =
+    `${getFlag(countrySlug)} ${countryName}`;
+
+  const providersTracked = new Set(data.map(row => row.provider_slug)).size;
+  const casinosTracked = new Set(data.map(row => row.casino)).size;
+
+  document.getElementById("providerCount").textContent = providersTracked;
+  document.getElementById("casinoCount").textContent = casinosTracked;
+
+  document.title =
+    `Slot Providers in ${countryName} | SlotAvailability`;
+
+  const providersMap = new Map();
+
+  data.forEach(row => {
+    if (!providersMap.has(row.provider_slug)) {
+      providersMap.set(row.provider_slug, {
+        provider: row.provider,
+        provider_slug: row.provider_slug,
+        country_slug: row.country_slug,
+        casinos: [],
+        availabilityValues: []
+      });
+    }
+
+    const providerData = providersMap.get(row.provider_slug);
+    providerData.casinos.push(row.casino);
+    providerData.availabilityValues.push(row.available);
+  });
+
+  const providers = Array.from(providersMap.values());
+
+  table.innerHTML = providers.map(row => {
+    const hasAvailable = row.availabilityValues.includes(true);
+    const hasUnavailable = row.availabilityValues.includes(false);
+
+    const availability =
+      hasAvailable
+        ? "Available"
+        : hasUnavailable
+          ? "Not available"
+          : "Unknown";
+
+    const statusClass =
+      hasAvailable
+        ? "available"
+        : hasUnavailable
+          ? "unavailable"
+          : "unknown";
+
+    return `
+      <tr>
+        <td>
+          <a href="/provider/${row.provider_slug}/">
+            ${row.provider}
+          </a>
+        </td>
+
+        <td>${row.casinos.length} casinos</td>
+
+        <td>
+          <span class="status-badge ${statusClass}">${availability}</span>
+        </td>
+
+        <td>
+          <a class="details-link" href="/availability/?provider=${row.provider_slug}&country=${row.country_slug}">
+            View details
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+    
+    loadCountryData();
+  </script>
+  <script src="/assets/nav.js"></script>
+</body>
+</html>
