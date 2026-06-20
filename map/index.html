@@ -244,6 +244,18 @@ function getSelectedProviderStatus(countrySlug) {
     };
   }
 
+  const providerData = countryData.providers.get(selectedProviderSlug);
+
+  if (!providerData) {
+    return {
+      label: "Unknown",
+      statusClass: "unknown"
+    };
+  }
+
+  return getAvailabilityMeta(providerData.availabilityValues);
+}
+
 function getProviderMapSummary(providerSlug) {
   const summary = {
     provider: "",
