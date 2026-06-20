@@ -1514,10 +1514,7 @@ th {
   height: 560px;
   border-radius: 18px;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.12), transparent 32%),
-    radial-gradient(circle at 70% 60%, rgba(30, 64, 175, 0.16), transparent 34%),
-    #070b14;
+  background: #070b14;
 }
 
 .map-panel {
