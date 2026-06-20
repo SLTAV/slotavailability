@@ -35,21 +35,40 @@
   <main class="page map-page">
   <div class="page-header">
     <div class="map-filter-card">
-  <label for="mapProviderSelect">View availability for</label>
+  <div class="map-filter-row">
+    <label for="mapProviderSelect">View availability for</label>
 
-  <select id="mapProviderSelect">
-    <option value="">All tracked providers</option>
-    <option value="hacksaw-gaming">Hacksaw Gaming</option>
-    <option value="pragmatic-play">Pragmatic Play</option>
-    <option value="nolimit-city">Nolimit City</option>
-    <option value="relax-gaming">Relax Gaming</option>
-    <option value="push-gaming">Push Gaming</option>
-    <option value="play-n-go">Play'n GO</option>
-    <option value="evolution">Evolution</option>
-    <option value="bgaming">BGaming</option>
-    <option value="elk-studios">ELK Studios</option>
-    <option value="thunderkick">Thunderkick</option>
-  </select>
+    <select id="mapProviderSelect">
+      <option value="">All tracked providers</option>
+      <option value="hacksaw-gaming">Hacksaw Gaming</option>
+      <option value="pragmatic-play">Pragmatic Play</option>
+      <option value="nolimit-city">Nolimit City</option>
+      <option value="relax-gaming">Relax Gaming</option>
+      <option value="push-gaming">Push Gaming</option>
+      <option value="play-n-go">Play'n GO</option>
+      <option value="evolution">Evolution</option>
+      <option value="bgaming">BGaming</option>
+      <option value="elk-studios">ELK Studios</option>
+      <option value="thunderkick">Thunderkick</option>
+    </select>
+  </div>
+
+  <div class="map-legend">
+    <span class="map-legend-item">
+      <i class="map-legend-dot available"></i>
+      Available
+    </span>
+
+    <span class="map-legend-item">
+      <i class="map-legend-dot unavailable"></i>
+      Not available
+    </span>
+
+    <span class="map-legend-item">
+      <i class="map-legend-dot unknown"></i>
+      Unknown
+    </span>
+  </div>
 </div>
 
     <p class="subtitle">
@@ -225,6 +244,40 @@ function getSelectedProviderStatus(countrySlug) {
     };
   }
 
+  function getProviderMapSummary(providerSlug) {
+  const summary = {
+    provider: "",
+    available: 0,
+    unavailable: 0,
+    unknown: 0
+  };
+
+  Object.values(availabilityByCountry).forEach(countryData => {
+    const providerData = countryData.providers.get(providerSlug);
+
+    if (!providerData) {
+      summary.unknown += 1;
+      return;
+    }
+
+    if (!summary.provider) {
+      summary.provider = providerData.provider;
+    }
+
+    const status = getAvailabilityMeta(providerData.availabilityValues);
+
+    if (status.statusClass === "available") {
+      summary.available += 1;
+    } else if (status.statusClass === "unavailable") {
+      summary.unavailable += 1;
+    } else {
+      summary.unknown += 1;
+    }
+  });
+
+  return summary;
+}
+
   const providerData = countryData.providers.get(selectedProviderSlug);
 
   if (!providerData) {
@@ -342,28 +395,73 @@ setTimeout(() => {
   }
 
   function showDefaultPanel() {
-    document.getElementById("mapPanel").innerHTML = `
-      <span class="badge">Country details</span>
+  const panel = document.getElementById("mapPanel");
 
-      <h2>Select a country</h2>
+  if (selectedProviderSlug) {
+    const summary = getProviderMapSummary(selectedProviderSlug);
+
+    panel.innerHTML = `
+      <span class="badge">Provider map</span>
+
+      <h2>${summary.provider}</h2>
 
       <p>
-        Click on a highlighted country to view tracked providers and casino availability.
+        Country colors summarize the current availability data across tracked casinos.
+        Click a country for casino-level details.
       </p>
 
-      <div class="map-mini-stats">
-        <div>
-          <span>Countries tracked</span>
-          <strong>${Object.keys(availabilityByCountry).length}</strong>
+      <div class="map-mini-stats map-status-summary">
+        <div class="map-stat-available">
+          <span>Available</span>
+          <strong>${summary.available}</strong>
         </div>
 
-        <div>
-          <span>Status</span>
-          <strong>Pre-launch</strong>
+        <div class="map-stat-unavailable">
+          <span>Not available</span>
+          <strong>${summary.unavailable}</strong>
+        </div>
+
+        <div class="map-stat-unknown">
+          <span>Unknown</span>
+          <strong>${summary.unknown}</strong>
         </div>
       </div>
     `;
+
+    return;
   }
+
+  const providerSlugs = new Set();
+
+  Object.values(availabilityByCountry).forEach(countryData => {
+    countryData.providers.forEach((providerData, providerSlug) => {
+      providerSlugs.add(providerSlug);
+    });
+  });
+
+  panel.innerHTML = `
+    <span class="badge">Country details</span>
+
+    <h2>Select a provider or country</h2>
+
+    <p>
+      Select a provider to color the map by availability, or click a highlighted country
+      to browse all tracked providers.
+    </p>
+
+    <div class="map-mini-stats">
+      <div>
+        <span>Countries tracked</span>
+        <strong>${Object.keys(availabilityByCountry).length}</strong>
+      </div>
+
+      <div>
+        <span>Providers tracked</span>
+        <strong>${providerSlugs.size}</strong>
+      </div>
+    </div>
+  `;
+}
 
   function showCountryPanel(countrySlug) {
     const countryData = availabilityByCountry[countrySlug];
@@ -481,7 +579,7 @@ setTimeout(() => {
       </div>
 
       <div>
-        <span>Overall status</span>
+        <span>Availability</span>
         <strong>${overallStatus.label}</strong>
       </div>
     </div>
