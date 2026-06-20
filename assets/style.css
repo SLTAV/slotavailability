@@ -2112,3 +2112,8 @@ main.page.map-page {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* Map V2 – lift the full map block slightly */
+.map-page .map-shell {
+  margin-top: 64px !important;
+}
