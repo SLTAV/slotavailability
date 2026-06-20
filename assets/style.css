@@ -1896,10 +1896,23 @@ main.page .grid .card strong,
   line-height: 1.7;
 }
 
-/* Map provider filter */
+/* Map V2 provider filter and legend */
 .map-filter-card {
   width: min(1120px, calc(100vw - 64px));
   margin: 24px auto 0;
+  padding: 18px 22px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background:
+    linear-gradient(180deg, rgba(56, 189, 248, 0.055), rgba(255, 255, 255, 0.014)),
+    var(--bg-card);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.map-filter-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1915,4 +1928,68 @@ main.page .grid .card strong,
 .map-filter-card select {
   width: 270px;
   min-height: 46px;
+}
+
+.map-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.map-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.map-legend-dot.available {
+  background: var(--available);
+}
+
+.map-legend-dot.unavailable {
+  background: var(--unavailable);
+}
+
+.map-legend-dot.unknown {
+  background: var(--unknown);
+}
+
+.map-status-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.map-status-summary div {
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.map-status-summary span {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.map-status-summary strong {
+  font-size: 20px;
+}
+
+.map-stat-available strong {
+  color: var(--available);
+}
+
+.map-stat-unavailable strong {
+  color: var(--unavailable);
+}
+
+.map-stat-unknown strong {
+  color: var(--unknown);
 }
