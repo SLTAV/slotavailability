@@ -2114,3 +2114,31 @@ main.page.map-page {
 .map-page .map-shell {
   margin-top: 64px !important;
 }
+
+/* Homepage select cleanup */
+.search-row select {
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: #070b14;
+  color: var(--text-main);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-row select:hover {
+  border-color: rgba(56, 189, 248, 0.42);
+}
+
+.search-row select:focus {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.72);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.search-row select option {
+  background: #111827;
+  color: #f8fafc;
+}
