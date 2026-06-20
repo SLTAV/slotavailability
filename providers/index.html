@@ -100,6 +100,66 @@
     <a href="/help-us/">Help Us</a>
     <a href="mailto:contact@slotavailability.com">Contact</a>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const PROVIDER_LIST_SUPABASE_URL = "COPIE_ICI_TON_URL_SUPABASE";
+  const PROVIDER_LIST_SUPABASE_KEY = "COPIE_ICI_TA_CLE_PUBLISHABLE";
+
+  const providerListClient = supabase.createClient(
+    PROVIDER_LIST_SUPABASE_URL,
+    PROVIDER_LIST_SUPABASE_KEY
+  );
+
+  async function updateProviderCountryCounts() {
+    const providerCards = document.querySelectorAll(
+      'a.card[href^="/provider/"]'
+    );
+
+    const { data, error } = await providerListClient
+      .from("provider_availability")
+      .select("provider_slug, country_slug");
+
+    if (error) {
+      console.error("Unable to update provider country counts:", error);
+      return;
+    }
+
+    const countriesByProvider = new Map();
+
+    data.forEach(row => {
+      if (!row.provider_slug || !row.country_slug) {
+        return;
+      }
+
+      if (!countriesByProvider.has(row.provider_slug)) {
+        countriesByProvider.set(row.provider_slug, new Set());
+      }
+
+      countriesByProvider
+        .get(row.provider_slug)
+        .add(row.country_slug);
+    });
+
+    providerCards.forEach(card => {
+      const href = card.getAttribute("href");
+      const providerSlug = href.split("/").filter(Boolean).pop();
+      const status = card.querySelector(".status");
+
+      if (!providerSlug || !status) {
+        return;
+      }
+
+      const countryCount =
+        countriesByProvider.get(providerSlug)?.size || 0;
+
+      status.textContent =
+        `${countryCount} ${countryCount === 1 ? "country" : "countries"} tracked`;
+    });
+  }
+
+  updateProviderCountryCounts();
+</script>
   <script src="/assets/nav.js"></script>
 </body>
 </html>
