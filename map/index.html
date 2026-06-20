@@ -34,12 +34,26 @@
 
   <main class="page map-page">
   <div class="page-header">
-    <span class="badge">World Map</span>
+    <div class="map-filter-card">
+  <label for="mapProviderSelect">View availability for</label>
 
-    <h1>Slot Provider Availability Map</h1>
+  <select id="mapProviderSelect">
+    <option value="">All tracked providers</option>
+    <option value="hacksaw-gaming">Hacksaw Gaming</option>
+    <option value="pragmatic-play">Pragmatic Play</option>
+    <option value="nolimit-city">Nolimit City</option>
+    <option value="relax-gaming">Relax Gaming</option>
+    <option value="push-gaming">Push Gaming</option>
+    <option value="play-n-go">Play'n GO</option>
+    <option value="evolution">Evolution</option>
+    <option value="bgaming">BGaming</option>
+    <option value="elk-studios">ELK Studios</option>
+    <option value="thunderkick">Thunderkick</option>
+  </select>
+</div>
 
     <p class="subtitle">
-      Click a tracked country to view slot provider availability across supported casinos.
+      Select a provider to view country availability, then click a tracked country for details.
     </p>
   </div>
 
@@ -115,7 +129,8 @@
 
   let availabilityByCountry = {};
   let geoJsonLayer;
-
+  let selectedProviderSlug = "";
+    
   async function loadMapData() {
     const { data, error } = await supabaseClient
       .from("provider_availability")
@@ -138,37 +153,137 @@
   }
 
   function buildCountrySummary(rows) {
-    const countries = {};
+  const countries = {};
 
-    rows.forEach(row => {
-      if (!countries[row.country_slug]) {
-        countries[row.country_slug] = {
-          country: row.country,
-          country_slug: row.country_slug,
-          casinos: new Set(),
-          providers: new Map()
-        };
-      }
+  rows.forEach(row => {
+    if (!countries[row.country_slug]) {
+      countries[row.country_slug] = {
+        country: row.country,
+        country_slug: row.country_slug,
+        casinos: new Set(),
+        providers: new Map()
+      };
+    }
 
-      const countryData = countries[row.country_slug];
+    const countryData = countries[row.country_slug];
 
-      countryData.casinos.add(row.casino);
+    countryData.casinos.add(row.casino);
 
-      if (!countryData.providers.has(row.provider_slug)) {
-        countryData.providers.set(row.provider_slug, {
-          provider: row.provider,
-          provider_slug: row.provider_slug,
-          availabilityValues: []
-        });
-      }
+    if (!countryData.providers.has(row.provider_slug)) {
+      countryData.providers.set(row.provider_slug, {
+        provider: row.provider,
+        provider_slug: row.provider_slug,
+        availabilityValues: [],
+        casinoRows: []
+      });
+    }
 
-      countryData.providers
-        .get(row.provider_slug)
-        .availabilityValues.push(row.available);
+    const providerData = countryData.providers.get(row.provider_slug);
+
+    providerData.availabilityValues.push(row.available);
+
+    providerData.casinoRows.push({
+      casino: row.casino,
+      available: row.available
     });
+  });
 
-    return countries;
+  return countries;
+}
+
+    function getAvailabilityMeta(values) {
+  const hasAvailable = values.includes(true);
+  const hasUnavailable = values.includes(false);
+
+  if (hasAvailable) {
+    return {
+      label: "Available",
+      statusClass: "available"
+    };
   }
+
+  if (hasUnavailable) {
+    return {
+      label: "Not available",
+      statusClass: "unavailable"
+    };
+  }
+
+  return {
+    label: "Unknown",
+    statusClass: "unknown"
+  };
+}
+
+function getSelectedProviderStatus(countrySlug) {
+  const countryData = availabilityByCountry[countrySlug];
+
+  if (!countryData || !selectedProviderSlug) {
+    return {
+      label: "Unknown",
+      statusClass: "unknown"
+    };
+  }
+
+  const providerData = countryData.providers.get(selectedProviderSlug);
+
+  if (!providerData) {
+    return {
+      label: "Unknown",
+      statusClass: "unknown"
+    };
+  }
+
+  return getAvailabilityMeta(providerData.availabilityValues);
+}
+
+function getMapCountryStyle(feature) {
+  const countryName = feature.properties.name;
+  const countrySlug = trackedCountries[countryName];
+  const isTracked = Boolean(countrySlug);
+
+  if (!isTracked) {
+    return {
+      color: "rgba(148, 163, 184, 0.22)",
+      weight: 0.6,
+      fillColor: "#111827",
+      fillOpacity: 0.26
+    };
+  }
+
+  if (!selectedProviderSlug) {
+    return {
+      color: "#38bdf8",
+      weight: 1.4,
+      fillColor: "#38bdf8",
+      fillOpacity: 0.42
+    };
+  }
+
+  const status = getSelectedProviderStatus(countrySlug);
+
+  const colors = {
+    available: {
+      border: "#22c55e",
+      fill: "#22c55e"
+    },
+    unavailable: {
+      border: "#ef4444",
+      fill: "#ef4444"
+    },
+    unknown: {
+      border: "#64748b",
+      fill: "#64748b"
+    }
+  };
+
+  return {
+    color: colors[status.statusClass].border,
+    weight: 1.5,
+    fillColor: colors[status.statusClass].fill,
+    fillOpacity: 0.48
+  };
+}
 
   async function loadWorldMap() {
     const response = await fetch(
@@ -182,18 +297,7 @@
     );
 
     geoJsonLayer = L.geoJSON(geoJsonData, {
-      style: function (feature) {
-        const countryName = feature.properties.name;
-        const countrySlug = trackedCountries[countryName];
-        const isTracked = Boolean(countrySlug);
-
-        return {
-          color: isTracked ? "#38bdf8" : "rgba(148, 163, 184, 0.22)",
-          weight: isTracked ? 1.4 : 0.6,
-          fillColor: isTracked ? "#38bdf8" : "#111827",
-          fillOpacity: isTracked ? 0.42 : 0.26
-        };
-      },
+      style: getMapCountryStyle,
 
       onEachFeature: function (feature, layer) {
         const countryName = feature.properties.name;
@@ -215,8 +319,12 @@
         });
 
         layer.on("click", function () {
-          showCountryPanel(countrySlug);
-        });
+  if (selectedProviderSlug) {
+    showProviderCountryPanel(countrySlug, selectedProviderSlug);
+  } else {
+    showCountryPanel(countrySlug);
+  }
+});
       }
     }).addTo(map);
 
@@ -323,6 +431,88 @@ setTimeout(() => {
     `;
   }
 
+  function showProviderCountryPanel(countrySlug, providerSlug) {
+  const countryData = availabilityByCountry[countrySlug];
+
+  if (!countryData) {
+    return;
+  }
+
+  const providerData = countryData.providers.get(providerSlug);
+
+  if (!providerData) {
+    showCountryPanel(countrySlug);
+    return;
+  }
+
+  const overallStatus = getAvailabilityMeta(
+    providerData.availabilityValues
+  );
+
+  const casinoCards = providerData.casinoRows
+    .sort((a, b) => a.casino.localeCompare(b.casino))
+    .map(row => {
+      const status = getAvailabilityMeta([row.available]);
+
+      return `
+        <div class="map-provider-row">
+          <span>${row.casino}</span>
+          <strong class="status-badge ${status.statusClass}">
+            ${status.label}
+          </strong>
+        </div>
+      `;
+    })
+    .join("");
+
+  document.getElementById("mapPanel").innerHTML = `
+    <span class="badge">Provider details</span>
+
+    <h2>${getFlag(countryData.country_slug)} ${countryData.country}</h2>
+
+    <p>
+      ${providerData.provider} availability across tracked casinos.
+    </p>
+
+    <div class="map-mini-stats">
+      <div>
+        <span>Casinos tracked</span>
+        <strong>${providerData.casinoRows.length}</strong>
+      </div>
+
+      <div>
+        <span>Overall status</span>
+        <strong>${overallStatus.label}</strong>
+      </div>
+    </div>
+
+    <div class="map-provider-list">
+      ${casinoCards}
+    </div>
+
+    <a
+      class="details-link map-country-link"
+      href="/availability/?provider=${providerData.provider_slug}&country=${countryData.country_slug}"
+    >
+      View full availability
+    </a>
+  `;
+}
+
+    document
+  .getElementById("mapProviderSelect")
+  .addEventListener("change", function () {
+    selectedProviderSlug = this.value;
+
+    if (geoJsonLayer) {
+      geoJsonLayer.eachLayer(layer => {
+        geoJsonLayer.resetStyle(layer);
+      });
+    }
+
+    showDefaultPanel();
+  });
+    
   loadMapData();
 </script>
   <script src="/assets/nav.js"></script>
