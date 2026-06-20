@@ -39,38 +39,38 @@
 
       <div class="search-card">
       <div class="search-row">
-      <select>
-      <option>Select Provider</option>
-      <option>Hacksaw Gaming</option>
-      <option>Pragmatic Play</option>
-      <option>Nolimit City</option>
-      <option>Relax Gaming</option>
-      <option>Push Gaming</option>
-      <option>Play'n GO</option>
-      <option>Evolution</option>
-      <option>BGaming</option>
-      <option>ELK Studios</option>
-      <option>Thunderkick</option>
-      </select>
+      <select id="providerSelect">
+  <option value="">Select Provider</option>
+  <option value="hacksaw-gaming">Hacksaw Gaming</option>
+  <option value="pragmatic-play">Pragmatic Play</option>
+  <option value="nolimit-city">Nolimit City</option>
+  <option value="relax-gaming">Relax Gaming</option>
+  <option value="push-gaming">Push Gaming</option>
+  <option value="play-n-go">Play'n GO</option>
+  <option value="evolution">Evolution</option>
+  <option value="bgaming">BGaming</option>
+  <option value="elk-studios">ELK Studios</option>
+  <option value="thunderkick">Thunderkick</option>
+</select>
 
-      <select>
-      <option>Select Country</option>
-      <option>Canada</option>
-      <option>Brazil</option>
-      <option>Australia</option>
-      <option>New Zealand</option>
-      <option>Germany</option>
-      <option>Switzerland</option>
-      <option>Netherlands</option>
-      <option>Sweden</option>
-      <option>Norway</option>
-      <option>Finland</option>
-      <option>United Kingdom</option>
-      <option>Denmark</option>
-      <option>Belgium</option>
-      <option>Portugal</option>
-      <option>Austria</option>
-    </select>
+<select id="countrySelect">
+  <option value="">Select Country</option>
+  <option value="canada">Canada</option>
+  <option value="brazil">Brazil</option>
+  <option value="australia">Australia</option>
+  <option value="new-zealand">New Zealand</option>
+  <option value="germany">Germany</option>
+  <option value="switzerland">Switzerland</option>
+  <option value="netherlands">Netherlands</option>
+  <option value="sweden">Sweden</option>
+  <option value="norway">Norway</option>
+  <option value="finland">Finland</option>
+  <option value="united-kingdom">United Kingdom</option>
+  <option value="denmark">Denmark</option>
+  <option value="belgium">Belgium</option>
+  <option value="portugal">Portugal</option>
+  <option value="austria">Austria</option>
+</select>
 
     <button id="searchButton">Search</button>
     </div>
@@ -274,15 +274,15 @@
   return flags[countrySlug] || "🌍";
 }
 
-  const providerSelect = document.querySelectorAll("select")[0];
-  const countrySelect = document.querySelectorAll("select")[1];
+  const providerSelect = document.getElementById("providerSelect");
+  const countrySelect = document.getElementById("countrySelect");
   const searchButton = document.getElementById("searchButton");
 
   searchButton.addEventListener("click", async () => {
     const provider = providerSelect.value;
     const country = countrySelect.value;
 
-    if (provider === "Select Provider" || country === "Select Country") {
+    if (!provider || !country) {
       alert("Please select a provider and a country.");
       return;
     }
@@ -290,8 +290,8 @@
     const { data, error } = await supabaseClient
   .from("provider_availability")
   .select("*")
-  .eq("provider", provider)
-  .eq("country", country);
+  .eq("provider_slug", provider)
+  .eq("country_slug", country);
 
 console.log("Provider selected:", provider);
 console.log("Country selected:", country);
@@ -334,7 +334,7 @@ console.log("Supabase error:", error);
   <div class="result-card">
 
     <div class="result-header">
-      <h2>${provider} in ${getFlag(data[0].country_slug)} ${country}</h2>
+      <h2>${data[0].provider} in ${getFlag(data[0].country_slug)} ${data[0].country}</h2>
       <span class="status-badge ${availabilityClass}">${availabilityText}</span>
     </div>
 
@@ -351,7 +351,7 @@ console.log("Supabase error:", error);
 
       <div>
         <span>Country</span>
-        <strong><span class="flag">${getFlag(data[0].country_slug)}</span>${country}</strong>
+        <strong><span class="flag">${getFlag(data[0].country_slug)}</span>${data[0].country}</strong>
       </div>
 
       <div>
