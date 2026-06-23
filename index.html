@@ -31,10 +31,10 @@
       <section class="hero">
       <div class="badge">Global Slot Provider Availability Database</div>
 
-      <h1>Check Slot Provider Availability by Country & Casino</h1>
+      <h1>Check Slot Provider Availability by Country</h1>
 
       <p class="subtitle">
-      SlotAvailability is an independent database that helps you check where major slot providers are available across tracked countries and casinos.
+      SlotAvailability is an independent database that helps you check whether major slot providers are available in tracked countries.
       </p>
 
       <div class="search-card">
@@ -336,8 +336,6 @@ console.log("Supabase error:", error);
           ? "Available"
           : "Not available";
 
-    const casinosTracked = new Set(data.map(row => row.casino)).size;
-
     const availabilityClass =
       data[0].available === null
         ? "unknown"
@@ -358,11 +356,6 @@ console.log("Supabase error:", error);
       </p>
 
     <div class="result-meta">
-
-      <div>
-        <span>Casinos tracked</span>
-        <strong>${casinosTracked}</strong>
-      </div>
 
       <div>
         <span>Country</span>
