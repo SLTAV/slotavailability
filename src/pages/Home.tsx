@@ -6,67 +6,19 @@ import { CountryCard, ProviderCard, SectionHeading } from '../components/Cards';
 import { SearchBox } from '../components/SearchBox';
 import { countries, providers } from '../data/catalog';
 
-function StudioArtwork() {
+function HeroArtwork({ kind }: { kind: 'providers' | 'countries' }) {
   return (
-    <div className="hero-art studio-art" aria-hidden="true">
-      <div className="art-disc" />
-      <div className="floating-studio studio-back">
-        <span>NC</span>
-        <small>NOLIMIT CITY</small>
-      </div>
-      <div className="floating-studio studio-middle">
-        <span>
-          H<span className="cut">/</span>G
-        </span>
-        <small>HACKSAW GAMING</small>
-      </div>
-      <div className="floating-studio studio-front">
-        <span>
-          PP<i>✦</i>
-        </span>
-        <small>PRAGMATIC PLAY</small>
-      </div>
-      <span className="art-spark spark-one">✦</span>
-      <span className="art-spark spark-two">+</span>
-    </div>
-  );
-}
-function GlobeArtwork() {
-  return (
-    <div className="hero-art globe-art" aria-hidden="true">
-      <div className="planet">
-        <svg viewBox="0 0 260 260">
-          <defs>
-            <radialGradient id="planet" cx="30%" cy="20%">
-              <stop stopColor="#b9d2ec" />
-              <stop offset=".6" stopColor="#587492" />
-              <stop offset="1" stopColor="#27364c" />
-            </radialGradient>
-            <clipPath id="planet-clip">
-              <circle cx="130" cy="130" r="114" />
-            </clipPath>
-          </defs>
-          <circle cx="130" cy="130" r="114" fill="url(#planet)" />
-          <g clipPath="url(#planet-clip)" fill="none" stroke="#deecfc" strokeOpacity=".28">
-            <ellipse cx="130" cy="130" rx="60" ry="114" />
-            <ellipse cx="130" cy="130" rx="94" ry="114" />
-            <path d="M16 130h228M26 87h208M26 173h208M55 43h150M55 217h150M130 16v228" />
-          </g>
-          <g fill="#d6e8fa" opacity=".52">
-            <path d="M52 66l30-19 29 8 12 21-16 10-2 20-17 8-4 23-18-8-6-23-22-13zM90 137l25 9 11 18-8 20-15 24-12-15-6-29zM145 69l19-15 39 14 15 21-24 10-18-7-8 15-26-12zM145 107l28 4 12 24-12 29-17 13-15-27-9-28zM193 172l20-9 15 15-9 15-27-4z" />
-          </g>
-        </svg>
-      </div>
-      <span className="globe-label label-ca">
-        <span className="mini-dot" /> Canada
-      </span>
-      <span className="globe-label label-de">
-        <span className="mini-dot" /> Germany
-      </span>
-      <span className="globe-label label-au">
-        <span className="mini-dot" /> Australia
-      </span>
-    </div>
+    <img
+      className={`hero-art hero-glass hero-glass-${kind}`}
+      src={`/illustrations/${kind}-glass.webp`}
+      alt=""
+      aria-hidden="true"
+      width={768}
+      height={768}
+      decoding="async"
+      fetchPriority="high"
+      draggable={false}
+    />
   );
 }
 export default function Home() {
@@ -96,7 +48,7 @@ export default function Home() {
             </span>
             <span className="hero-footnote">{providers.length} studios in the directory</span>
           </div>
-          <StudioArtwork />
+          <HeroArtwork kind="providers" />
         </Link>
         <Link to="/countries" className="hero-card hero-countries">
           <div className="hero-copy">
@@ -112,7 +64,7 @@ export default function Home() {
             </span>
             <span className="hero-footnote">{countries.length} markets to explore</span>
           </div>
-          <GlobeArtwork />
+          <HeroArtwork kind="countries" />
         </Link>
       </div>
       <SearchBox />
