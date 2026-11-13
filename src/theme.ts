@@ -1,13 +1,14 @@
 import { createTheme } from '@mui/material/styles';
+import { palette } from './palette';
 
 export const theme = createTheme({
   palette: {
     mode: 'dark',
-    primary: { main: '#b5ee55', contrastText: '#17200d' },
-    secondary: { main: '#b9a2ef' },
-    background: { default: '#17191f', paper: '#202329' },
-    text: { primary: '#f4f5f7', secondary: '#9da3b0' },
-    divider: '#30333c',
+    primary: { main: palette.accent, contrastText: palette.accentInk },
+    secondary: { main: palette.secondary, contrastText: palette.accentInk },
+    background: { default: palette.background, paper: palette.surface },
+    text: { primary: palette.text, secondary: palette.muted },
+    divider: palette.border,
   },
   typography: {
     fontFamily: 'Inter, "Segoe UI", sans-serif',
@@ -21,11 +22,29 @@ export const theme = createTheme({
       defaultProps: { disableElevation: true },
       styleOverrides: {
         root: { minHeight: 42, paddingInline: 18 },
-        outlined: { borderColor: '#42464f', color: '#e3e6ec' },
+        outlined: { borderColor: palette.border, color: palette.text },
       },
     },
-    MuiIconButton: { styleOverrides: { root: { color: '#a1a8b5' } } },
+    MuiIconButton: { styleOverrides: { root: { color: palette.muted } } },
     MuiTooltip: { defaultProps: { arrow: true } },
-    MuiCssBaseline: { styleOverrides: { body: { margin: 0 }, '*': { boxSizing: 'border-box' } } },
+    MuiCssBaseline: {
+      styleOverrides: {
+        ':root': {
+          '--surface': palette.surface,
+          '--surface-raised': palette.raised,
+          '--border': palette.border,
+          '--text-main': palette.text,
+          '--text-muted': palette.muted,
+          '--text-dim': palette.dim,
+          '--accent': palette.accent,
+          '--accent-ink': palette.accentInk,
+          '--secondary': palette.secondary,
+          '--chrome': palette.chrome,
+          '--active-surface': palette.active,
+        },
+        body: { margin: 0 },
+        '*': { boxSizing: 'border-box' },
+      },
+    },
   },
 });

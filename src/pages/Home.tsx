@@ -38,21 +38,21 @@ function GlobeArtwork() {
         <svg viewBox="0 0 260 260">
           <defs>
             <radialGradient id="planet" cx="30%" cy="20%">
-              <stop stopColor="#b8a3e9" />
-              <stop offset=".6" stopColor="#6c598e" />
-              <stop offset="1" stopColor="#302b46" />
+              <stop stopColor="#b9d2ec" />
+              <stop offset=".6" stopColor="#587492" />
+              <stop offset="1" stopColor="#27364c" />
             </radialGradient>
             <clipPath id="planet-clip">
               <circle cx="130" cy="130" r="114" />
             </clipPath>
           </defs>
           <circle cx="130" cy="130" r="114" fill="url(#planet)" />
-          <g clipPath="url(#planet-clip)" fill="none" stroke="#ded2fc" strokeOpacity=".28">
+          <g clipPath="url(#planet-clip)" fill="none" stroke="#deecfc" strokeOpacity=".28">
             <ellipse cx="130" cy="130" rx="60" ry="114" />
             <ellipse cx="130" cy="130" rx="94" ry="114" />
             <path d="M16 130h228M26 87h208M26 173h208M55 43h150M55 217h150M130 16v228" />
           </g>
-          <g fill="#e2d5fb" opacity=".52">
+          <g fill="#d6e8fa" opacity=".52">
             <path d="M52 66l30-19 29 8 12 21-16 10-2 20-17 8-4 23-18-8-6-23-22-13zM90 137l25 9 11 18-8 20-15 24-12-15-6-29zM145 69l19-15 39 14 15 21-24 10-18-7-8 15-26-12zM145 107l28 4 12 24-12 29-17 13-15-27-9-28zM193 172l20-9 15 15-9 15-27-4z" />
           </g>
         </svg>
