@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
 import type { Country, Provider } from '../data/catalog';
+import countryPhotos from '../data/country-photos.json';
 
 export function SectionHeading({
   title,
@@ -69,7 +70,38 @@ export function Flag({ code }: { code: string }) {
     </span>
   );
 }
-export function CountryCard({ country }: { country: Country }) {
+export function CountryCard({
+  country,
+  variant = 'compact',
+}: {
+  country: Country;
+  variant?: 'compact' | 'postcard';
+}) {
+  const photo =
+    variant === 'postcard' ? countryPhotos.find((item) => item.slug === country.slug) : null;
+  if (photo) {
+    return (
+      <Link
+        className="country-card country-postcard"
+        to={`/country/${country.slug}`}
+        aria-label={`Explore ${country.name}`}
+      >
+        <img
+          src={`/countries/${country.slug}.webp`}
+          alt=""
+          width={720}
+          height={960}
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="postcard-caption">
+          <strong>{country.name}</strong>
+          <span>{photo.location}</span>
+        </div>
+        <ArrowUpRight className="postcard-arrow" size={17} aria-hidden="true" />
+      </Link>
+    );
+  }
   return (
     <Link className="country-card" to={`/country/${country.slug}`}>
       <Flag code={country.code} />

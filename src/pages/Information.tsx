@@ -1,6 +1,8 @@
 import { Button } from '@mui/material';
 import { Mail, ShieldCheck, Eye, HeartHandshake } from 'lucide-react';
 import { PageHeading } from '../components/Cards';
+import countryPhotos from '../data/country-photos.json';
+import { countryName } from '../data/catalog';
 export function About() {
   return (
     <>
@@ -46,6 +48,18 @@ export function About() {
           indicate a commercial affiliation.
         </p>
       </article>
+      <details className="photo-credits">
+        <summary>Country photo credits</summary>
+        <ul>
+          {countryPhotos.map((photo) => (
+            <li key={photo.slug}>
+              <a href={photo.page} target="_blank" rel="noreferrer">
+                {countryName(photo.slug)} — {photo.photographer} / Unsplash
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
     </>
   );
 }

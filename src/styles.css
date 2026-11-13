@@ -1525,3 +1525,95 @@ input {
     animation: none !important;
   }
 }
+/* Homepage postcard cards. Compact cards elsewhere retain their original layout. */
+.country-card.country-postcard {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  aspect-ratio: 3 / 4;
+  min-height: 190px;
+  border-radius: 10px;
+  background: var(--surface);
+}
+.country-postcard > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 350ms ease;
+}
+.country-postcard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0b102000 30%, #0b102038 53%, #080c1ae8 100%);
+  pointer-events: none;
+}
+.country-postcard:hover > img,
+.country-postcard:focus-visible > img {
+  transform: scale(1.045);
+}
+.postcard-caption {
+  position: absolute;
+  left: 14px;
+  right: 25px;
+  bottom: 17px;
+  z-index: 1;
+  color: #fff;
+}
+.postcard-caption strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  text-shadow: 0 1px 6px #0008;
+}
+.postcard-caption span {
+  display: block;
+  color: #e0e5ef;
+  font-size: 9px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.postcard-arrow {
+  position: absolute;
+  right: 10px;
+  bottom: 19px;
+  z-index: 1;
+  color: #fff;
+}
+.photo-credits {
+  max-width: 850px;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.photo-credits summary {
+  cursor: pointer;
+}
+.photo-credits a:hover {
+  color: var(--accent);
+}
+@media (max-width: 1250px) and (min-width: 761px) {
+  .country-postcard {
+    max-height: 290px;
+  }
+}
+@media (max-width: 520px) {
+  .country-card.country-postcard {
+    min-height: 205px;
+  }
+  .postcard-caption {
+    left: 13px;
+    bottom: 16px;
+  }
+  .postcard-caption strong {
+    font-size: 16px;
+  }
+}

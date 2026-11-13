@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "canada",
+    "location": "Moraine Lake, Alberta",
+    "photographer": "Joseph Northcutt",
+    "page": "https://unsplash.com/photos/cxXIlpKEcqU",
+    "image": "https://images.unsplash.com/photo-1564381461146-631310baa90e"
+  },
+  {
+    "slug": "brazil",
+    "location": "Rio de Janeiro, Sugarloaf Mountain",
+    "photographer": "Jonathan Borba",
+    "page": "https://unsplash.com/photos/j_ibL7ytVBY",
+    "image": "https://images.unsplash.com/photo-1776722201855-f45c6dabc9ef"
+  },
+  {
+    "slug": "australia",
+    "location": "Sydney Opera House",
+    "photographer": "Pejman Ajorlou",
+    "page": "https://unsplash.com/photos/wc3jzzOrD20",
+    "image": "https://images.unsplash.com/photo-1746891459680-fb5b795d35a3"
+  },
+  {
+    "slug": "germany",
+    "location": "Neuschwanstein Castle, Bavaria",
+    "photographer": "Johannes Plenio",
+    "page": "https://unsplash.com/photos/OwMTchwUTNw",
+    "image": "https://images.unsplash.com/photo-1495316364083-b5916626072e"
+  },
+  {
+    "slug": "sweden",
+    "location": "Stockholm waterfront",
+    "photographer": "Julie Gaïa Guzal",
+    "page": "https://unsplash.com/photos/Lz-9RPVEh94",
+    "image": "https://images.unsplash.com/photo-1788855757618-65c87dc7bb87"
+  },
+  {
+    "slug": "united-kingdom",
+    "location": "Westminster, London",
+    "photographer": "Peter Beke",
+    "page": "https://unsplash.com/photos/sWx26pdgEto",
+    "image": "https://images.unsplash.com/photo-1782778463934-083f7d93f2da"
+  }
+]

@@ -68,19 +68,7 @@ export default function Home() {
         </Link>
       </div>
       <SearchBox />
-      <section className="content-section">
-        <SectionHeading
-          title="Recently Checked"
-          icon={<Clock3 size={19} />}
-          to="/recent"
-          action="All checks"
-        />
-        <AvailabilityPanel limit={3} datedOnly />
-        <p className="data-note">
-          <span className="status-dot" /> Actual recorded observations. Unknown means not yet
-          confirmed.
-        </p>
-      </section>
+
       <section className="content-section">
         <SectionHeading title="Popular Providers" icon={<Layers3 size={19} />} to="/providers" />
         <div className="provider-grid">
@@ -93,9 +81,22 @@ export default function Home() {
         <SectionHeading title="Countries" icon={<Globe2 size={19} />} to="/countries" />
         <div className="country-grid">
           {countries.slice(0, 6).map((country) => (
-            <CountryCard country={country} key={country.slug} />
+            <CountryCard country={country} key={country.slug} variant="postcard" />
           ))}
         </div>
+      </section>
+      <section className="content-section">
+        <SectionHeading
+          title="Recently Checked"
+          icon={<Clock3 size={19} />}
+          to="/recent"
+          action="All checks"
+        />
+        <AvailabilityPanel limit={3} datedOnly />
+        <p className="data-note">
+          <span className="status-dot" /> Actual recorded observations. Unknown means not yet
+          confirmed.
+        </p>
       </section>
       <div className="help-banner">
         <div className="help-symbol">
