@@ -1,0 +1,18 @@
+{
+  "generator": "built-in image generation",
+  "purpose": "Approved and integrated detailed provider cards",
+  "cards": [
+    ["hacksaw-gaming", "Hacksaw Gaming", "5856cb75-e492-48cf-ac1d-caf20bc7b279"],
+    ["pragmatic-play", "Pragmatic Play", "9b78d047-3779-49b1-b22a-bac9a732f43c"],
+    ["nolimit-city", "Nolimit City", "61863764-687e-4834-8cd7-e2a83c8903a9"],
+    ["relax-gaming", "Relax Gaming", "b494da6e-2d34-4d21-aae2-1db617776e6c"],
+    ["push-gaming", "Push Gaming", "f9db20ac-1201-44dd-a88c-e84221a48fcf"],
+    ["play-n-go", "Play’n GO", "522d85ec-bded-4d28-932b-5226587a70bc"]
+  ],
+  "additionalCards": {
+    "evolution": "d0203630-c09c-4589-aa2b-11229b35f865",
+    "bgaming": "7dd62a2a-0dcd-48c4-8c62-58bcd0fc9ca0",
+    "elk-studios": "df9b71ff-9984-411e-9f20-90dbacf5891d",
+    "thunderkick": "2fce9e9c-51b5-401a-8274-072507139963"
+  }
+}

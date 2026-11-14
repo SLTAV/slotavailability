@@ -35,25 +35,64 @@ export function SectionHeading({
     </div>
   );
 }
-export function ProviderCard({ provider }: { provider: Provider }) {
+const detailedProviderArt = new Set([
+  'hacksaw-gaming',
+  'pragmatic-play',
+  'nolimit-city',
+  'relax-gaming',
+  'push-gaming',
+  'play-n-go',
+  'evolution',
+  'bgaming',
+  'elk-studios',
+  'thunderkick',
+]);
+export function ProviderCard({
+  provider,
+  illustrated = false,
+}: {
+  provider: Provider;
+  illustrated?: boolean;
+}) {
+  const detailed = illustrated && detailedProviderArt.has(provider.slug);
   return (
     <Link
       to={`/provider/${provider.slug}`}
-      className={`provider-card provider-${provider.slug}`}
-      style={{ '--studio-color': provider.color } as CSSProperties}
+      aria-label={illustrated ? `${provider.name} — View availability` : undefined}
+      className={`provider-card provider-${provider.slug}${illustrated ? ' provider-card-illustrated' : ''}${detailed ? ' provider-card-detailed' : ''}`}
+      style={illustrated ? undefined : ({ '--studio-color': provider.color } as CSSProperties)}
     >
       <div className="provider-art">
-        <div className="studio-orbit" />
-        <span className="studio-monogram" aria-hidden="true">
-          {provider.initials}
-        </span>
-        <strong>{provider.mark}</strong>
-        <span className="provider-art-label">
-          {provider.name.includes('Gaming') ? 'GAMING STUDIO' : 'SLOT PROVIDER'}
-        </span>
+        {illustrated ? (
+          <>
+            <img
+              className="provider-silhouette"
+              src={`/illustrations/${detailed ? 'providers-detailed' : 'providers'}/${provider.slug}.webp`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              width={600}
+              height={detailed ? 800 : 400}
+            />
+            <span className="provider-wordmark" aria-hidden="true">
+              {provider.name}
+            </span>
+          </>
+        ) : (
+          <>
+            <div className="studio-orbit" />
+            <span className="studio-monogram" aria-hidden="true">
+              {provider.initials}
+            </span>
+            <strong>{provider.mark}</strong>
+            <span className="provider-art-label">
+              {provider.name.includes('Gaming') ? 'GAMING STUDIO' : 'SLOT PROVIDER'}
+            </span>
+          </>
+        )}
       </div>
       <div className="provider-info">
-        <strong>{provider.name}</strong>
+        {!illustrated && <strong>{provider.name}</strong>}
         <span>
           View availability <ArrowUpRight size={13} />
         </span>
@@ -73,9 +112,13 @@ export function Flag({ code }: { code: string }) {
 export function CountryCard({
   country,
   variant = 'compact',
+  to,
+  label,
 }: {
   country: Country;
   variant?: 'compact' | 'postcard';
+  to?: string;
+  label?: string;
 }) {
   const photo =
     variant === 'postcard' ? countryPhotos.find((item) => item.slug === country.slug) : null;
@@ -83,8 +126,8 @@ export function CountryCard({
     return (
       <Link
         className="country-card country-postcard"
-        to={`/country/${country.slug}`}
-        aria-label={`Explore ${country.name}`}
+        to={to ?? `/country/${country.slug}`}
+        aria-label={label ?? `Explore ${country.name}`}
       >
         <img
           src={`/countries/${country.slug}.webp`}
@@ -95,15 +138,22 @@ export function CountryCard({
           decoding="async"
         />
         <div className="postcard-caption">
+          <img
+            className="postcard-flag"
+            src={`/flags/${country.code.toLowerCase()}.svg`}
+            alt=""
+            width={24}
+            height={18}
+            loading="lazy"
+          />
           <strong>{country.name}</strong>
-          <span>{photo.location}</span>
         </div>
         <ArrowUpRight className="postcard-arrow" size={17} aria-hidden="true" />
       </Link>
     );
   }
   return (
-    <Link className="country-card" to={`/country/${country.slug}`}>
+    <Link className="country-card" to={to ?? `/country/${country.slug}`}>
       <Flag code={country.code} />
       <strong>{country.name}</strong>
       <span>

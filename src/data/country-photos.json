@@ -40,5 +40,104 @@
     "photographer": "Peter Beke",
     "page": "https://unsplash.com/photos/sWx26pdgEto",
     "image": "https://images.unsplash.com/photo-1782778463934-083f7d93f2da"
+  },
+  {
+    "slug": "new-zealand",
+    "location": "View from McQueens Pass towards Lyttelton Harbour, New Zealand",
+    "photographer": "Michal Klajban",
+    "page": "https://commons.wikimedia.org/wiki/File:View_from_McQueens_Pass_towards_Lyttelton_Harbour,_New_Zealand.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/View_from_McQueens_Pass_towards_Lyttelton_Harbour%2C_New_Zealand.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "switzerland",
+    "location": "Landscape Arnisee-region",
+    "photographer": "Simon Koopmann",
+    "page": "https://commons.wikimedia.org/wiki/File:Landscape_Arnisee-region.JPG",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/Landscape_Arnisee-region.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "netherlands",
+    "location": "Colorful canal houses at golden hour in Damrak avenue Amsterdam the Netherlands",
+    "photographer": "Basile Morin",
+    "page": "https://commons.wikimedia.org/wiki/File:Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "norway",
+    "location": "At Lyngen fjord, Spåkenes in 2012 June",
+    "photographer": "Ximonic (Simo Räsänen)",
+    "page": "https://commons.wikimedia.org/wiki/File:At_Lyngen_fjord,_Sp%C3%A5kenes_in_2012_June.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/8f/At_Lyngen_fjord%2C_Sp%C3%A5kenes_in_2012_June.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "finland",
+    "location": "Lutheran Cathedral Helsinki",
+    "photographer": "Hans Hillewaert",
+    "page": "https://commons.wikimedia.org/wiki/File:Lutheran_Cathedral_Helsinki.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/27/Lutheran_Cathedral_Helsinki.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "denmark",
+    "location": "2018 - Nyhavn on sunset",
+    "photographer": "Moahim",
+    "page": "https://commons.wikimedia.org/wiki/File:2018_-_Nyhavn_on_sunset.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/2018_-_Nyhavn_on_sunset.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "belgium",
+    "location": "Bruges Belgium Bakkersrei-Canal-01",
+    "photographer": "CEphoto, Uwe Aranas",
+    "page": "https://commons.wikimedia.org/wiki/File:Bruges_Belgium_Bakkersrei-Canal-01.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/37/Bruges_Belgium_Bakkersrei-Canal-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "portugal",
+    "location": "View of Lisbon and Tejo - 01",
+    "photographer": "NorbertNagel",
+    "page": "https://commons.wikimedia.org/wiki/File:View_of_Lisbon_and_Tejo_-_01.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5a/View_of_Lisbon_and_Tejo_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
+  },
+  {
+    "slug": "austria",
+    "location": "Hallstatt evangelische Kirche 20180206",
+    "photographer": "Uoaei1",
+    "page": "https://commons.wikimedia.org/wiki/File:Hallstatt_evangelische_Kirche_20180206.jpg",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Hallstatt_evangelische_Kirche_20180206.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Cropped to portrait format, resized and converted to WebP."
   }
 ]

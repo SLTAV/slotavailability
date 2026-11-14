@@ -10,8 +10,8 @@ const row = (available: boolean | null): Observation => ({
   casino: null,
   source: null,
 });
-test('conflicting casino evidence is mixed rather than available', () =>
-  assert.equal(summarize([row(true), row(false)]), 'mixed'));
+test('conflicting observations remain unknown rather than available', () =>
+  assert.equal(summarize([row(true), row(false)]), 'unknown'));
 test('incomplete evidence is not advertised as confirmed', () => {
   assert.equal(summarize([]), 'unknown');
   assert.equal(summarize([row(true), row(null)]), 'unknown');

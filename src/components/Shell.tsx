@@ -1,6 +1,7 @@
+import { DonationWallet } from './DonationWallet';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { Button, Drawer, IconButton, Tooltip, useMediaQuery } from '@mui/material';
+import { Drawer, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import {
   ArrowUpRight,
   ChevronLeft,
@@ -11,6 +12,7 @@ import {
   HeartHandshake,
   Home,
   Layers3,
+  MapPinned,
   Menu,
   Search,
   ShieldCheck,
@@ -22,19 +24,20 @@ const navigation = [
   { to: '/', title: 'Home', icon: Home, end: true },
   { to: '/search', title: 'Search', icon: Search },
   { to: '/providers', title: 'Providers', icon: Layers3 },
-  { to: '/countries', title: 'Countries', icon: Globe2 },
+  { to: '/countries', title: 'Countries', icon: MapPinned },
   { to: '/map', title: 'World Map', icon: Globe2 },
   { to: '/recent', title: 'Recently Checked', icon: Clock3 },
 ];
 export function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <Link className="brand" to="/" aria-label="SlotAvailability home">
-      <img src="/favicon.svg" alt="" width="30" height="30" />
-      {!compact && (
-        <span>
-          Slot<span>Availability</span>
-        </span>
-      )}
+      <img
+        className={compact ? 'brand-original-icon' : 'brand-original-lockup'}
+        src={compact ? '/brand-b2-original-icon.svg' : '/brand-b2-original.svg'}
+        alt=""
+        width={compact ? 43 : 258}
+        height={60}
+      />
     </Link>
   );
 }
@@ -90,7 +93,6 @@ export function Shell() {
   const content = (
     <>
       <div className="sidebar-top">
-        <span className="sidebar-caption">DISCOVER</span>
         {mobile ? (
           <IconButton aria-label="Close navigation" onClick={() => setOpen(false)}>
             <X size={18} />
@@ -154,18 +156,7 @@ export function Shell() {
           </IconButton>
           <Brand />
         </div>
-        <div className="topbar-center">
-          <span className="status-dot" /> Your independent availability directory
-        </div>
-        <Button
-          component={Link}
-          to="/help-us"
-          variant="outlined"
-          size="small"
-          endIcon={<ArrowUpRight size={15} />}
-        >
-          Contribute
-        </Button>
+        <DonationWallet />
       </header>
       {mobile ? (
         <Drawer
@@ -186,7 +177,7 @@ export function Shell() {
             <p>A clearer picture of provider availability.</p>
           </div>
           <div className="footer-links">
-            <Link to="/about">About the directory</Link>
+            <Link to="/about">About the database</Link>
             <Link to="/help-us">
               Help us improve <ArrowUpRight size={13} />
             </Link>

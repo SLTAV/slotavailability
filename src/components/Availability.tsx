@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Skeleton } from '@mui/material';
 import { ArrowUpRight, CircleDashed, RefreshCw } from 'lucide-react';
@@ -13,7 +14,6 @@ export function StatusBadge({ status }: { status: AvailabilityStatus }) {
         {
           available: 'Available',
           unavailable: 'Not available',
-          mixed: 'Mixed reports',
           unknown: 'Unknown',
         }[status]
       }
@@ -26,10 +26,10 @@ export function ObservationTable({ rows }: { rows: Observation[] }) {
       <table className="observations-table">
         <thead>
           <tr>
-            <th>Provider / market</th>
-            <th>Recorded status</th>
-            <th>Last checked</th>
-            <th>
+            <th scope="col">Provider / country</th>
+            <th scope="col">Recorded status</th>
+            <th scope="col">Last checked</th>
+            <th scope="col">
               <span className="sr-only">View details</span>
             </th>
           </tr>
@@ -42,7 +42,7 @@ export function ObservationTable({ rows }: { rows: Observation[] }) {
                   <strong>{providerName(row.providerSlug)}</strong>
                   <span>
                     {countryName(row.countrySlug)}
-                    {row.casino ? ` · ${row.casino}` : ' · Casino not specified'}
+                    {row.casino ? ` · ${row.casino}` : ' · Service not specified'}
                   </span>
                 </Link>
               </td>
@@ -79,12 +79,16 @@ export function AvailabilityPanel({
   country,
   limit = 5,
   datedOnly = false,
+  loadMore = false,
 }: {
   provider?: string;
   country?: string;
   limit?: number;
   datedOnly?: boolean;
+  loadMore?: boolean;
 }) {
+  const [pageCount, setPageCount] = useState(1);
+  const visibleLimit = loadMore ? limit * pageCount : limit;
   const { data, loading, error, retry } = useAvailability(provider, country);
   if (loading)
     return (
@@ -100,7 +104,7 @@ export function AvailabilityPanel({
         <CircleDashed size={28} />
         <div>
           <strong>We couldn’t load the latest checks.</strong>
-          <p>The directory is still available. Please try again in a moment.</p>
+          <p>The database is still available. Please try again in a moment.</p>
         </div>
         <Button onClick={retry} startIcon={<RefreshCw size={15} />}>
           Try again
@@ -120,14 +124,24 @@ export function AvailabilityPanel({
           <p>
             {data?.configured
               ? 'There are no observations for this selection.'
-              : 'The directory is ready. Verified observations will appear here when the data source is connected.'}
+              : 'The database is ready. Verified observations will appear here when the data source is connected.'}
           </p>
         </div>
       </div>
     );
   return (
     <>
-      <ObservationTable rows={rows.slice(0, limit)} />
+      <ObservationTable rows={rows.slice(0, visibleLimit)} />
+      {loadMore && rows.length > visibleLimit && (
+        <div className="load-more-checks">
+          <Button variant="outlined" onClick={() => setPageCount((count) => count + 1)}>
+            Load more
+          </Button>
+          <span aria-live="polite">
+            Showing {Math.min(visibleLimit, rows.length)} of {rows.length} checks
+          </span>
+        </div>
+      )}
       {data?.truncated && (
         <p className="data-note">
           Showing a limited set of recent observations. This is not a complete coverage count.

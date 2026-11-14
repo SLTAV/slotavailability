@@ -1,0 +1,56 @@
+{
+  "generator": "Built-in image generation",
+  "size": [1800, 600],
+  "quality": 88,
+  "sourceDirectory": "C:/Users/AD/.codex/generated_images/01a1d51d-f292-7421-a0d0-96ebefa15e63/",
+  "assets": {
+    "hacksaw-gaming": "1b98b067-5643-4407-a44f-c0e3f1a058af",
+    "nolimit-city": "395a6039-42b2-4cb6-912c-a243c170383d",
+    "relax-gaming": "095d32f1-a117-4891-b1ca-232bcec9cf48",
+    "push-gaming": "4d2a0983-a546-4113-8b1f-d99b2531eb71",
+    "play-n-go": "e6143197-7a9f-499c-a59c-ea9fda0b65ea",
+    "evolution": "01e493d6-ecf5-41bf-8e96-ce1758e6e6f3",
+    "bgaming": "561c3864-30c3-4b7c-8f2a-970d17274f2b",
+    "elk-studios": "feae317c-7dba-4753-8616-e064ed2d3098",
+    "thunderkick": "ea0f1219-f0b3-49ff-8a62-037f7ec4c83c"
+  },
+  "promptTemplate": "Production adventure website banner for {name} provider profile, cohesive premium cinematic hand-painted game key art. A unique original environment: {environment}. On far RIGHT occupying rightmost third: {character}. Silhouette pure black, bold readable contour, no interior face detail, no existing game character. LEFT 55% dark atmospheric ink plum shadows, calm space for real HTML title. Landscape panorama 3:1, key subjects in central horizontal band to survive short website banner crop. Rich natural scenic detail, believable materials, mature tasteful fantasy exploration, directional warm light, subtle grain. Full bleed edge to edge. No words, letters, logos, typography, UI, coins, watermark, border or frame. Maintain legibility at 180px high, avoid overbusy left half.",
+  "concepts": {
+    "hacksaw-gaming": [
+      "warm ivory and honey amber, mysterious woodland and ruined explorer outpost",
+      "an original black raccoon head and shoulders silhouette wearing a wide-brim explorer hat"
+    ],
+    "nolimit-city": [
+      "acid yellow and smoky charcoal, dramatic abandoned industrial city and distant ruined towers",
+      "an original bald male adventurer head and shoulders in side profile"
+    ],
+    "relax-gaming": [
+      "teal jade and warm brass, misty jungle river and ancient carved temple gateways",
+      "an original mysterious explorer in a tall top hat with broad collar"
+    ],
+    "push-gaming": [
+      "lime green and deep forest, prehistoric jungle river and moss covered ruins",
+      "an original black shark head silhouette in strong side profile rising over the jungle river"
+    ],
+    "play-n-go": [
+      "royal blue and amber, desert mountain ruins and old expedition camp",
+      "an original black archaeologist head and shoulders wearing a rounded explorer hat"
+    ],
+    "evolution": [
+      "silver slate ivory and warm brass, elegant ancient observatory and celestial ruins at twilight",
+      "an original black suited host head and shoulders profile with swept back short hair"
+    ],
+    "bgaming": [
+      "coral red magenta and plum, epic open prairie and red rock temple ruins",
+      "an original black shaggy bison head and shoulder silhouette in side profile"
+    ],
+    "elk-studios": [
+      "olive gold amber and charcoal, Nordic pine forest lake and distant stone sanctuary",
+      "an original black majestic elk head silhouette with broad branching antlers"
+    ],
+    "thunderkick": [
+      "golden yellow and violet, mysterious old theatre arches opening onto fantasy mountains",
+      "an original black hooded theatrical explorer silhouette with a short feather, no face details"
+    ]
+  }
+}
