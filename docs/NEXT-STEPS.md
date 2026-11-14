@@ -25,4 +25,4 @@ Existing Supabase provider_availability is connected read-only through the ignor
 
 ## Verification
 
-Build, domain tests and formatting checks are run at this checkpoint. Manual checks cover Home -> provider -> country observation details, the country profile route, and return navigation. This is a development checkpoint on rebuild/react-foundation, not a merge or production deployment.
+Build, domain tests and formatting checks are run at this checkpoint. Manual checks cover Home -> provider -> country observation details, the country profile route, and return navigation. This is a development checkpoint on checkpoint/adventure-2026-11-14, not a merge or production deployment. The older rebuild/react-foundation branch is preserved separately because its published foundation commits have a different history. The checkpoint branch is the active continuation branch.
